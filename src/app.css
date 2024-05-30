@@ -1,0 +1,232 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Rest of your CSS code */
+:root {
+  --bright-red: #FF0000;
+  --red: #FF2400;
+  --crimson: #DC143C;
+  --fire-engine-red: #CE2029;
+  --scarlet: #FF2400;
+  --cherry-red: #FF3E96;
+  --ruby-red: #E0115F;
+  --rose-red: #C21E56;
+  --coral: #FF7F50;
+  --salmon: #FA8072;
+  --pink: #FFC0CB;
+  --light-pink: #FFB6C1;
+  --carnation-pink: #FFA6C9;
+  --baby-pink: #F4C2C2;
+  --dusty-pink: #D58A94;
+  --pale-pink: #FADADD;
+  --ash-rose: #B76E79;
+  --mauve: #E0B0FF;
+  --light-gray: #D3D3D3;
+  --gray: #808080;
+}
+
+.bg-level-1 {
+  background-color: var(--bright-red);
+}
+.bg-level-2 {
+  background-color: var(--red);
+}
+
+.bg-level-3 {
+  background-color: var(--crimson);
+}
+
+.bg-level-4 {
+  background-color: var(--fire-engine-red);
+}
+
+.bg-level-5 {
+  background-color: var(--scarlet);
+}
+
+.bg-level-6 {
+  background-color: var(--cherry-red);
+}
+
+.bg-level-7 {
+  background-color: var(--ruby-red);
+}
+
+.bg-level-8 {
+  background-color: var(--rose-red);
+}
+
+.bg-level-9 {
+  background-color: var(--coral);
+}
+
+.bg-level-10 {
+  background-color: var(--salmon);
+}
+
+.bg-level-11 {
+  background-color: var(--pink);
+}
+
+.bg-level-12 {
+  background-color: var(--light-pink);
+}
+
+.bg-level-13 {
+  background-color: var(--carnation-pink);
+}
+
+.bg-level-14 {
+  background-color: var(--baby-pink);
+}
+
+.bg-level-15 {
+  background-color: var(--dusty-pink);
+}
+
+.bg-level-16 {
+  background-color: var(--pale-pink);
+}
+
+.bg-level-17 {
+  background-color: var(--ash-rose);
+}
+
+.bg-level-18 {
+  background-color: var(--mauve);
+}
+
+.bg-level-19 {
+  background-color: var(--light-gray);
+}
+
+.bg-level-20 {
+  background-color: var(--gray);
+}
+
+.count-list {
+  
+}
+.count-line {
+  
+}
+.count-user {
+  font-size: 80%;
+  margin-left: 10px;
+}
+
+.bg-trader-prapor {
+  background-color: #6C757D; /* Slate Gray */
+  color: #fff;
+}
+
+.bg-trader-therapist {
+  background-color: #696969; /* Dim Gray */
+  color: #fff;
+}
+
+.bg-trader-fence {
+  background-color: #556B2F; /* Dark Olive Green */
+  color: #fff;
+}
+
+.bg-trader-skier {
+  background-color: #2F4F4F; /* Dark Slate Gray */
+  color: #fff;
+}
+
+.bg-trader-peacekeeper {
+  background-color: #808080; /* Gray */
+  color: #fff;
+}
+
+.bg-trader-mechanic {
+  background-color: #483D8B; /* Dark Slate Blue */
+  color: #fff;
+}
+
+.bg-trader-ragman {
+  background-color: #2E8B57; /* Sea Green */
+  color: #fff;
+}
+
+.bg-trader-jaeger {
+  background-color: #556B2F; /* Dark Olive Green */
+  color: #fff;
+}
+
+.bg-trader-lighthouse-keeper {
+  background-color: #556B2F; /* Dark Olive Green */
+  color: #fff;
+}
+
+.bg-trader-scorpion {
+  background-color: #CFB9A5; /* Dark Olive Green */
+  color: #fff;
+}
+
+.bg-trader-lotus {
+  background-color: #DD6031; /* Dark Olive Green */
+  color: #fff;
+}
+
+.bg-trader-artem {
+  background-color: #471323; /* Dark Olive Green */
+  color: #fff;
+}
+
+.logo-side-small-wrapper {
+  width: 32px;
+  height: 32px;
+  background-color: #121212;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.logo-side-small {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+}
+
+.pmc-header {
+  display: grid;
+  justify-content: normal;
+  align-items: center;
+  grid-template-columns: 36px auto 70px;
+}
+
+.card-title-nickname{
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.card-level {
+  font-size: 12px;
+}
+
+.icon-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  opacity: 0.5;
+}
+mark.highlighted {
+  padding: 0 !important;
+}
+
+.btn-link {
+  color: white;
+}
