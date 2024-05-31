@@ -15,10 +15,12 @@
     dispatchEvent("close");
   }
 
-  function doLogin() {
+  async function doLogin() {
     const auth = new AuthService();
-    auth.login(username, password);
+    await auth.login(username, password);
     closeModal();
+    username = "";
+    password = "";
     console.log('Login stuff here', username, password);
   }
 </script>

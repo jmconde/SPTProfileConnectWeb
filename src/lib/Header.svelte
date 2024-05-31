@@ -3,16 +3,17 @@
   import { Button, Nav, NavItem, Navbar, NavbarBrand } from "@sveltestrap/sveltestrap";
   import LoginModal from "./modals/LoginModal.svelte";
   import AuthService from "../services/authService";
-  import { user } from "../stores/userStore";
+  import { userStore } from "../stores/userStore";
   
   // @ts-ignore
   const version = APP_VERSION;
   let isLoginModalOpen = false;
   const auth = new AuthService();
 
-  $: isAuthenticated = $user !== null && $user !== undefined && $user !== "";
-  $: roles = $user?.roles ?? [];
+  $: isAuthenticated = $userStore !== null && $userStore !== undefined && $userStore !== "";
+  $: roles = $userStore?.roles ?? [];
   $: isAdmin = roles.includes("admin");
+  $: username = $userStore?.username ?? "";
 
   function logout() {
     auth.logout();
@@ -55,7 +56,7 @@
           </NavItem>
         {/if}
         <NavItem>
-          <a class="button-link" href="/profile" use:link>Profile</a>
+          <a class="button-link" href="/profile" use:link>Profile ({username})</a>
         </NavItem>
         <NavItem>
           <button class="button-link" on:click={logout}>Logout</button>

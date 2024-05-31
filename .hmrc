@@ -2,7 +2,7 @@
   "path": "G:\\Other\\Development\\Projects\\SPTProfileConnectWeb",
   "name": "spt-web",
   "initialVersion": "1.5.4",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "dockerName": "arhuako/spt-web",
   "_backupInitial": {
     "name": "spt-web",
@@ -33,16 +33,17 @@
   "_backup": {
     "name": "spt-web",
     "private": true,
-    "version": "1.5.4",
+    "version": "1.5.5",
     "type": "module",
     "scripts": {
       "start": "http-server ./dist -c-1",
+      "serve": "npm run build && http-server ./dist -c-1",
       "dev": "vite",
       "build": "vite build",
       "preview": "vite preview",
       "docker-build": "docker build -t arhuako/spt-web:latest .",
-      "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.5.4",
-      "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.5.4",
+      "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.5.5",
+      "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.5.5",
       "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
     },
     "devDependencies": {
@@ -51,11 +52,16 @@
       "dotenv": "^16.4.5",
       "svelte": "^4.2.12",
       "svelte-bootstrap-icons": "^3.1.1",
+      "svelte-routing": "^2.13.0",
       "vite": "^5.2.0"
     },
     "dependencies": {
       "bootstrap": "^5.3.3",
+      "cors": "^2.8.5",
+      "dayjs": "^1.11.11",
+      "express": "^4.19.2",
       "http-server": "^14.1.1",
+      "page": "^1.11.6",
       "svelte-multiselect": "^10.3.0"
     },
     "author": "arhuako"

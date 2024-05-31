@@ -17,7 +17,7 @@
     openRaids = value;
   });
 
-  $: isOpen = raids.length > 0;
+  $: isOpen = (raids ?? []).length > 0;
 </script>
 
 <Alert {isOpen} color="primary" heading="Raid(s) in progress">

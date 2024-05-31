@@ -1,7 +1,7 @@
 {
   "name": "spt-web",
   "private": true,
-  "version": "1.5.5",
+  "version": "1.6.0",
   "type": "module",
   "scripts": {
     "start": "http-server ./dist -c-1",
@@ -10,8 +10,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "docker-build": "docker build -t arhuako/spt-web:latest .",
-    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.5.5",
-    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.5.5",
+    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.6.0",
+    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.6.0",
     "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
   },
   "devDependencies": {
@@ -26,6 +26,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
+    "dayjs": "^1.11.11",
     "express": "^4.19.2",
     "http-server": "^14.1.1",
     "page": "^1.11.6",
