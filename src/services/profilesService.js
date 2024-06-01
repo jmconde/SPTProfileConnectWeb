@@ -66,9 +66,11 @@ class ProfilesService {
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
-      const { inRaid } = await res.json();
+      const response = await res.json();
+      console.log('response :>> ', response);
+      // const { inRaid } = response;
       // insertRaidTotalHealth(inRaid);
-      return inRaid;
+      return response;
     } catch (error) {
       console.error(error);
     }
