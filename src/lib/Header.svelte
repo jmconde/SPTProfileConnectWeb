@@ -22,14 +22,14 @@
 
 </script>
 
-<style global>
+<style>
   .version {
     color: #ababab;
     font-size: x-small;
     opacity: 0.3;
     margin-left: 12px
   }
-  .button-link {
+  :global(.button-link) {
     color: white;
     opacity: 0.5;
     padding: 0;

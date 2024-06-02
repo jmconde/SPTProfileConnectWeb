@@ -15,13 +15,7 @@
 
   async function createUser() {
     await adminService.createUser({username, password, email, firstname, lastname, isAdmin});
-  }
-
-  function cancel() {
-    navigate('/admin');
-  }
-
-  
+  }  
 </script>
 
 <SecurePage roles={['admin']}>
@@ -56,8 +50,8 @@
         <input bind:checked={isAdmin} type="checkbox" class="form-check-input" id="is-admin" name="isadmin" >
         <label class="form-check-label" for="is-admin">Is admin</label>
       </div>
-      <button type="button" class="btn" on:click={cancel}>Cancel</button>
       <button type="button" class="btn btn-primary" on:click={createUser}>Create</button>
+      <button type="button" class="btn" on:click={() =>  navigate('/admin/users')}>Back</button>
     </form>
   </Container>
 </SecurePage>

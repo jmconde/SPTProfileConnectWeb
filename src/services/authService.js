@@ -56,7 +56,7 @@ class AuthService {
         this.removePersistence();
         return;
       }
-      this.persist(JSON.parse(token));
+      this.persist(token);
     }
   }
 
@@ -64,7 +64,7 @@ class AuthService {
     const loggedUser = this.parseJwt(token)
     jwtStore.set(token);
     userStore.set(loggedUser);
-    sessionStorage.setItem('token', JSON.stringify(token));
+    sessionStorage.setItem('token',token);
   }
 
   removePersistence() {
@@ -85,9 +85,19 @@ class AuthService {
     if (!res.ok) {
       throw new Error('Network response was not ok');
     }
-    console.log('res.json() :>> ', res.json());
-    const { apiKey } = await res.json();
-    return apiKey;
+  }
+  async deleteApiKey(token) {
+    const jwt = get(jwtStore);
+    const res = await fetch(`${apiUrl}/api/user/token/${token._id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${jwt}`
+      }
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
   }
 
   async listApiKeys() {
@@ -107,7 +117,7 @@ class AuthService {
 
   async changePassword(username, oldPassword, newPassword) {
     const token = get(jwtStore);
-    const res = await fetch(`${apiUrl}/api/change-password`, {
+    const res = await fetch(`${apiUrl}/api/user/change-password`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -127,6 +137,21 @@ class AuthService {
     const base64Url = token.split(".")[1];
     const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
+  }
+
+  async listUsers() {
+    const token = get(jwtStore);
+    const res = await fetch(`${apiUrl}/api/admin/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`
+      }
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await res.json();
   }
 }
 

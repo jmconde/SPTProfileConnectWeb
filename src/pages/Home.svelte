@@ -1,7 +1,5 @@
-
 <script>
-  import  { onMount, onDestroy } from "svelte";
-  import Header from "../lib/Header.svelte";
+  import { onMount, onDestroy } from "svelte";
   import InRaid from "../lib/InRaid.svelte";
   import ProfileModal from "../lib/ProfileModal.svelte";
   import QuestsCount from "../lib/QuestsCount.svelte";
@@ -9,8 +7,11 @@
   import ProfilesService from "../services/profilesService";
   import "bootstrap/dist/css/bootstrap.min.css";
   import GeneratorAlert from "../lib/GeneratorAlert.svelte";
-    // import NotificationButton from "./lib/NotificationButton.svelte";
-    // import { sendNotification } from "./lib/helpers";
+  import { loadingStore } from "../stores/loadingStore";
+  // import NotificationButton from "./lib/NotificationButton.svelte";
+  // import { sendNotification } from "./lib/helpers";
+
+  loadingStore.set(true);
 
   const profilesService = new ProfilesService();
   let profiles = [];
@@ -28,6 +29,7 @@
   async function getData() {
     profiles = await profilesService.fetchProfiles();
     questsCount = await profilesService.fetchQuestsCount();
+    loadingStore.set(false);
     allUsers = profiles.map((profile) => profile.nickName);
     allLocations = questsCount.reduce((acc, quest) => {
       if (!acc.includes(quest.location)) {
@@ -79,7 +81,7 @@
   <div class="container mt-2">
     <div class="row">
       <div class="col">
-        <GeneratorAlert hideoutInfo={hideoutInfo} />
+        <GeneratorAlert {hideoutInfo} />
         <InRaid {raids} />
       </div>
     </div>

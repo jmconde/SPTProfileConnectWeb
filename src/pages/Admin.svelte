@@ -5,8 +5,8 @@
   import { navigate } from "svelte-routing";
   import SecurePage from "../lib/SecurePage.svelte";
 
-  function gotoCreateUserpage() {
-    navigate("/admin/create-user");
+  function goto(route) {
+    navigate(route);
   }
 </script>
 
@@ -17,7 +17,7 @@
 <SecurePage roles={['admin']}>
   <Container class="mt-2">
     <h1>Admin page</h1>
-    <Button color="primary" on:click={gotoCreateUserpage}>Create User</Button>
+    <Button color="primary" on:click={() => goto("/admin/users")}>Users</Button>
   </Container>
 </SecurePage>
 

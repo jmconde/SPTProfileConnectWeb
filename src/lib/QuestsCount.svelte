@@ -2,6 +2,8 @@
   import { createEventDispatcher } from "svelte";
   import QueryFilter from "./QueryFilter.svelte";
   import QuestCountItem from "./QuestCountItem.svelte";
+  import { loadingStore } from "../stores/loadingStore";
+  import Loading from "./Loading.svelte";
 
   export let items = [];
   export let users = [];
@@ -42,6 +44,9 @@
   <div class="card-body">
     <h5 class="card-title">Common quests</h5>
     <QueryFilter {users} {locations} {traders} on:search={handleSearch} />
+    {#if $loadingStore}
+      <Loading hasText={true} />
+    {/if}
     <div class="count-list">
       {#each filteredItems as count}
         {#if count.count > cap}

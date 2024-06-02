@@ -9,6 +9,7 @@
   import NotFound from "./pages/NotFound.svelte";
   import { onMount } from "svelte";
   import AuthService from "./services/authService";
+  import AdminUsers from "./pages/AdminUsers.svelte";
 
   export let url = "";
 
@@ -23,6 +24,7 @@
 <Router {url} >
   <Route path="/profile"><UserProfile /></Route>
   <Route path="/admin/create-user"><AdminCreateUser /></Route>
+  <Route path="/admin/users"><AdminUsers /></Route>
   <Route path="/admin"><Admin /></Route>
   <Route path="/"><Home /></Route>
   <Route><NotFound /></Route>
