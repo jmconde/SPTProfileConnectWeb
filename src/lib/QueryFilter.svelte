@@ -60,7 +60,7 @@
 
 <div class="container search mb-3">
   <div class="row mb-1">
-    <div class="col col-6">
+    <div class="col-md-6 col-sm-1">
       <input
         type="text"
         class="form-control"
@@ -70,7 +70,7 @@
         on:input={handleSearch}
       />
     </div>
-    <div class="col col-3">
+    <div class="col-md-3">
       <select class="form-select" bind:value={selectedTrader} on:change={setQuery}>
         <option value="">Select trader...</option>
         {#each traders as option}
@@ -78,7 +78,7 @@
         {/each}
       </select>
     </div>        
-    <div class="col col-3">
+    <div class="col-md-3">
       <select class="form-select" bind:value={selectedLocation} on:change={setQuery}>
         <option value="">Select location...</option>
         {#each locations as option}
@@ -88,15 +88,17 @@
     </div>
   </div>
   <div class="row">
-    <div class="col col-10">
+    <div class="col-md-10">
       <MultiSelect
         placeholder="Select users..."
         bind:selected={selectedUsers} options={users} 
         on:change={handleSelectUsers}
         on:removeAll={() => selectedUsers = []} />
     </div>
-    <div class="col col-2">
-      <button type="button" class="btn btn-secondary" on:click={handleClear}>Clear</button>
+    <div class="col-md-2">
+      <div class="d-grid gap-2">
+        <button type="button" class="btn btn-secondary" on:click={handleClear}>Clear</button>
+      </div>
     </div>
   </div>
 </div>
