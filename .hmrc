@@ -2,7 +2,7 @@
   "path": "G:\\Other\\Development\\Projects\\SPTProfileConnectWeb",
   "name": "spt-web",
   "initialVersion": "1.5.4",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "dockerName": "arhuako/spt-web",
   "_backupInitial": {
     "name": "spt-web",
@@ -33,7 +33,7 @@
   "_backup": {
     "name": "spt-web",
     "private": true,
-    "version": "1.6.1",
+    "version": "1.6.2",
     "type": "module",
     "scripts": {
       "start": "http-server ./dist -c-1",
@@ -42,8 +42,8 @@
       "build": "vite build",
       "preview": "vite preview",
       "docker-build": "docker build -t arhuako/spt-web:latest .",
-      "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.6.1",
-      "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.6.1",
+      "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:1.6.2",
+      "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:1.6.2",
       "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
     },
     "devDependencies": {
