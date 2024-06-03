@@ -16,11 +16,13 @@
   let query = [];
   let filteredItems = items;
 
+  console.log('items :>> ', items);
+
   $: {
     filteredItems = items.filter((item) => {
       let parts = query;
       return parts.every(part => item._searchableString.toLowerCase().includes(part.toLowerCase()));
-    })
+    });
   }
 
   function handleSearch(event) {
