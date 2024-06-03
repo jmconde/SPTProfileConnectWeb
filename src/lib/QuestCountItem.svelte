@@ -8,6 +8,8 @@
 
   export let count;
   export let query;
+  
+  $: sortedUSers = count.users.sort((a, b) => a.localeCompare(b));
 
   function onUserClick(event) {
     dispatch("user-click", event.detail);
@@ -45,7 +47,7 @@
   <div class="box-count--content">
     <div class="box-count--head fw-bold fs-6"><QuestLink quest = {count} {query} /><span class="fs-6 fw-light float-end me-4">{@html highlightMatch(count.location, query)} - {@html highlightMatch(count.trader, query)}</span></div>
     <div class="box-count--info fs-6">
-      {#each count.users as user}
+      {#each sortedUSers as user}
         <User on:user-click={onUserClick} {user} {query} />
       {/each}
     </div>
