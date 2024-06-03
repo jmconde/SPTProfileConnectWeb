@@ -1,0 +1,28 @@
+services:
+  sptweb:
+    image: "arhuako/spt-web:latest"
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on: 
+      - sptapi
+    environment:
+      - VITE_API_URL=<API_URL> # This is the URL of the API server (e.g. https://api.example.com)
+      - VITE_API_KEY=<API_KEY> # This is the API key for the API server (e.g. c6fca4f4e1e291425671323252d3a2b5041d5a9394f0393cfbe17eafce)
+
+  sptapi:
+    image: "arhuako/spt-api:latest"
+    restart: always
+    ports:
+      - 3000:3000 
+    environment:
+      - PORT=3000 # This is the port where the API will be running (e.g. 3000) 
+      - VAPID_PUBLIC_KEY=<VAPID_PUBLIC_KEY> # This is the public key for the web push notifications (e.g. HNSAKsnkasdlkasflkhnk87asg-Zcaakasfjka9asfu7asfh)
+      - VAPID_PRIVATE_KEY=<VAPID_PRIVATE_KEY> # This is the private key for the web push notifications (e.g. HNSAKsnkasdlkasflkhnk87asg-Zcaakasfjka9asfu7asfh)
+      - JWT_SECRET_KEY=<JWT_SECRET_KEY> # This is the secret key for the JWT tokens (e.g. ASn7adjasd8ijkasd89u)
+      - SALT_ROUNDS=<SALT_ROUNDS> # This is the number of rounds for the bcrypt hashing algorithm (e.g. 10)
+      - MONGO_HOST=<MONGO_HOST> # This is the IP address of the MongoDB server (e.g. https://mongo.example.com or http://104.2.211.14)
+      - MONGO_PORT=<MONGO_PORT> # This is the port where the MongoDB server is running (e.g. 27017)
+      - MONGO_USER=<MONGO_USER> # This is the username for the MongoDB server (e.g. my_user)
+      - MONGO_PASS=<MONGO_PASS> # This is the password for the MongoDB server (e.g. my_password)
+      - MONGO_DB=<MONGO_DB> # This is the name of the database in the MongoDB server (e.g. my_db)
