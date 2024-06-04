@@ -38,6 +38,7 @@
     <FormGroup floating label="Password">
       <Input bind:value={password} type="password" name="password" id="password" placeholder="with a placeholder" />
     </FormGroup>
+    <a href="/forgotten-password">Forgotten Password?</a>
   </ModalBody>
   <ModalFooter>
     <Button color="light" on:click={closeModal}>Cancel</Button>

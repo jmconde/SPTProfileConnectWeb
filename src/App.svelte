@@ -10,6 +10,7 @@
   import { onMount } from "svelte";
   import AuthService from "./services/authService";
   import AdminUsers from "./pages/AdminUsers.svelte";
+  import ForgottenPassword from "./pages/ForgottenPassword.svelte";
 
   export let url = "";
 
@@ -22,6 +23,7 @@
 
 <Header />
 <Router {url} >
+  <Route path="/forgotten-password"><ForgottenPassword /></Route>
   <Route path="/profile"><UserProfile /></Route>
   <Route path="/admin/create-user"><AdminCreateUser /></Route>
   <Route path="/admin/users"><AdminUsers /></Route>

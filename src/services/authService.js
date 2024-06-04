@@ -4,8 +4,6 @@ import { jwtStore } from "../stores/jwtStore";
 import { userStore } from "../stores/userStore";
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const USERNAME = import.meta.env.VITE_API_USERNAME;
-const PASSWORD = import.meta.env.VITE_API_PASSWORD;
 
 class AuthService {
   maxTries = 3;
@@ -50,13 +48,19 @@ class AuthService {
   fromStorage() {
     const token = sessionStorage.getItem('token');
     if (token) {
-      const parsed = this.parseJwt(token);
-      const isAfter = dayjs().isAfter(parsed.exp * 1000);
-      if (isAfter) {
+      try {
+        const parsed = this.parseJwt(token);
+        const isAfter = dayjs().isAfter(parsed.exp * 1000);
+        if (isAfter) {
+          this.removePersistence();
+          return;
+        }
+        this.persist(token);
+      } catch (error) {
         this.removePersistence();
-        return;
       }
-      this.persist(token);
+    } else {
+      this.removePersistence();
     }
   }
 
@@ -115,9 +119,24 @@ class AuthService {
     return await res.json();
   }
 
+  async changePasswordWithCode(username, code, newPassword) {
+    const res = await fetch(`${apiUrl}/api/user/password/recovery/change`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, code, newPassword })
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const { token } = await res.json();
+    this.persist(token);
+  }
+
   async changePassword(username, oldPassword, newPassword) {
     const token = get(jwtStore);
-    const res = await fetch(`${apiUrl}/api/user/change-password`, {
+    const res = await fetch(`${apiUrl}/api/user/password/change`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -130,11 +149,24 @@ class AuthService {
     }
   }
 
+  async requestPasswordRecovery(username) {
+    const res = await fetch(`${apiUrl}/api/user/password/recovery`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username })
+    });
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+  }
+
   parseJwt(token) {
     if (!token) {
       return;
     }
-    const base64Url = token.split(".")[1];
+    const base64Url = token.split(".")[1] ?? '';
     const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
   }
@@ -153,6 +185,19 @@ class AuthService {
     }
     return await res.json();
   }
+
+  async validate2FACode(code, username) {
+    const res = await fetch(`${apiUrl}/api/auth/code`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code, username })
+    }); 
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+  }  
 }
 
 export default AuthService;
