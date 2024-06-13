@@ -13,6 +13,7 @@
   let selectedUsers = [];
   let selectedLocation = '';
   let selectedTrader = '';
+  let searchText = '';
   
   function handleSearch(event) {
     const typed = event.target.value.toLowerCase().trim();
@@ -49,6 +50,7 @@
     selectedUsers = [];
     selectedLocation = '';
     selectedTrader = '';
+    searchText = '';
     dispatch("search", query);
   }
 
@@ -62,6 +64,7 @@
   <div class="row mb-1">
     <div class="col-md-6 col-sm-1">
       <input
+        bind:value={searchText}
         type="text"
         class="form-control"
         placeholder="Search..."

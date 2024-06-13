@@ -230,3 +230,15 @@ mark.highlighted {
 .btn-link {
   color: white;
 }
+
+.conn-status {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-left: 8px;
+  background-color: red;
+}
+.conn-status.connected {
+  background-color: green;
+}

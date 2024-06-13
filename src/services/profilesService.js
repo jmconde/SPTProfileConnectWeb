@@ -28,8 +28,9 @@ class ProfilesService {
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
-      const profiles = await res.json();
-      return profiles.sort((a, b) => a.nickName.localeCompare(b.nickName));
+      const profiles = (await res.json());
+
+      return profiles.sort((a, b) => a.data.nickName.localeCompare(b.data.nickName));
     } catch (error) {
       console.error(error);
     }
@@ -47,8 +48,7 @@ class ProfilesService {
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
-      const { questsCount } = await res.json();
-      return questsCount;
+      return await res.json();
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +67,6 @@ class ProfilesService {
         throw new Error('Network response was not ok');
       }
       const response = await res.json();
-      console.log('response :>> ', response);
       // const { inRaid } = response;
       // insertRaidTotalHealth(inRaid);
       return response;

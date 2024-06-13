@@ -1,9 +1,11 @@
 <script>
   import { Router, Link, navigate, link } from "svelte-routing";
-  import { Button, Nav, NavItem, Navbar, NavbarBrand } from "@sveltestrap/sveltestrap";
+  import { Nav, NavItem, Navbar, NavbarBrand } from "@sveltestrap/sveltestrap";
   import LoginModal from "./modals/LoginModal.svelte";
   import AuthService from "../services/authService";
   import { userStore } from "../stores/userStore";
+  import { _ } from "svelte-i18n";
+  import { websocketState } from '../stores/websocket';
   
   // @ts-ignore
   const version = APP_VERSION;
@@ -41,29 +43,29 @@
   }
   .button-link:hover {
     text-decoration: underline;
-  }
+  } 
 </style>
 
 
 <Navbar color="dark" theme="dark">
-  <NavbarBrand>SPT Quests<span class="version">v{version}</span></NavbarBrand>
+  <NavbarBrand>{$_('header.brand')}<span class="version">v{version}</span><div class="conn-status" class:connected={$websocketState.connected}></div></NavbarBrand>
   <Nav>
     <Router>
       {#if isAuthenticated}
         {#if isAdmin}
           <NavItem>
-            <Link class="button-link" to="/admin">Admin</Link>
+            <Link class="button-link" to="/admin">{$_('header.adminPanel')}</Link>
           </NavItem>
         {/if}
         <NavItem>
-          <a class="button-link" href="/profile" use:link>Profile ({username})</a>
+          <a class="button-link" href="/profile" use:link>{$_('header.profile', { values: { username }})}</a>
         </NavItem>
         <NavItem>
-          <button class="button-link" on:click={logout}>Logout</button>
+          <button class="button-link" on:click={logout}>{$_('header.logout')}</button>
         </NavItem>
       {:else}
         <NavItem>
-          <button class="button-link" on:click={() => isLoginModalOpen = true}>Login</button>
+          <button class="button-link" on:click={() => isLoginModalOpen = true}>{$_('header.login')}</button>
         </NavItem>
       {/if}
     </Router>

@@ -1,21 +1,100 @@
+// @ts-nocheck
 import { get } from "svelte/store";
 import { jwtStore } from "../stores/jwtStore";
-
-const apiUrl = import.meta.env.VITE_API_URL;
+import { NetworkService } from "./NetworkService";
 
 export class AdminService {
-  async createUser(user) {
-    const token = get(jwtStore);
-    const res = await fetch(`${apiUrl}/api/user`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`
-      },
-      body: JSON.stringify(user)
+  networkService = new NetworkService();
+
+  async updateUser(user) {
+    return await this.networkService.patch({
+      uri: `/api/admin/user/${user._id}`,
+      body: user
     });
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
+  }
+
+  async deleteUser(id) {
+    return await this.networkService.delete({
+      uri: `/api/admin/user/${id}`
+    });
+  }
+
+  async listUsers() {
+    return await this.networkService.get({
+      uri: '/api/admin/users'
+    });
+  }
+
+  async createUser(user) {
+    return await this.networkService.post({
+      uri: '/api/admin/user',
+      body: user
+    });
+  } 
+
+  async getUser(id) {
+    return await this.networkService.get({
+      uri: `/api/admin/user/${id}`
+    });
+  }
+
+  async listNamespaces() {
+    return await this.networkService.get({
+      uri: `/api/admin/namespaces`,
+    });
+  }
+
+  async createNamespace(namespace) {
+    const { name, description } = namespace;
+    const body = {
+      ...namespace,
+      name: name.trim(),
+      description: description.trim(),
+    };
+    return await this.networkService.post({
+      uri: `/api/admin/namespace`,
+      body,
+    });
+  }
+
+  async updateNamespace(namespace) {
+    const { _id, name, description } = namespace;
+    const body = {
+      ...namespace,
+      name: name.trim(),
+      description: description.trim(),
+    };
+    return await this.networkService.patch({
+      uri: `/api/admin/namespace/${_id}`,
+      body,
+    });
+  }
+
+  async deleteNamespace(id) {
+    return await this.networkService.delete({
+      uri: `/api/admin/namespace/${id}`,
+    });
+  }
+
+  async createNamespaceApiKey(id, description) {
+    return await this.networkService.post({
+      uri: `/api/admin/namespace/${id}/token`,
+      body:{
+        description,
+        type: 'namespace'
+      },
+    });
+  }
+
+  async listNamespaceApiKeys(namespaceId) {
+    return await this.networkService.get({
+      uri: `/api/admin/namespace/${namespaceId}/tokens`,
+    });
+  }
+
+  async deleteNamespaceApiKey(namespaceId, token) {
+    return await this.networkService.delete({
+      uri: `/api/admin/namespace/${namespaceId}/token/${token._id}`,
+    });
   }
 }

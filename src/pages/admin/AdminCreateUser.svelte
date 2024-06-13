@@ -1,8 +1,10 @@
 <script>
   import { Container } from '@sveltestrap/sveltestrap';
   import { navigate } from 'svelte-routing';
-  import SecurePage from '../lib/SecurePage.svelte';
-  import { AdminService } from '../services/AdminService';
+  import SecurePage from '../../lib/SecurePage.svelte';
+  import { AdminService } from '../../services/AdminService';
+
+  export let user = {};
 
   let username = '';
   let password = '';
@@ -15,13 +17,17 @@
 
   async function createUser() {
     await adminService.createUser({username, password, email, firstname, lastname, isAdmin});
-  }  
+  } 
+
+  function onSubmit(event) {
+    event.preventDefault();
+  }
 </script>
 
 <SecurePage roles={['admin']}>
   <Container>
     <h1>Create user page</h1>
-    <form action="/api/user" method="post">
+    <form action="/api/user" method="post" on:submit={onSubmit}>
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input bind:value={username} type="text" class="form-control" id="username" name="username" >

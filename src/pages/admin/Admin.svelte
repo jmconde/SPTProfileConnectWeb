@@ -3,7 +3,7 @@
 
   import { Button, Container } from "@sveltestrap/sveltestrap";
   import { navigate } from "svelte-routing";
-  import SecurePage from "../lib/SecurePage.svelte";
+  import SecurePage from "../../lib/SecurePage.svelte";
 
   function goto(route) {
     navigate(route);
@@ -17,7 +17,12 @@
 <SecurePage roles={['admin']}>
   <Container class="mt-2">
     <h1>Admin page</h1>
-    <Button color="primary" on:click={() => goto("/admin/users")}>Users</Button>
+    <div class="card mt-4">
+      <div class="card-body">
+        <Button color="primary" on:click={() => goto("/admin/users")}>Users</Button>
+        <Button color="primary" on:click={() => goto("/admin/namespaces")}>Namespaces</Button>
+      </div>
+    </div>
   </Container>
 </SecurePage>
 

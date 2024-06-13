@@ -27,8 +27,10 @@
   let pollInterval;
 
   async function getData() {
-    profiles = await profilesService.fetchProfiles();
-    questsCount = await profilesService.fetchQuestsCount();
+    const countResponse = await profilesService.fetchQuestsCount();
+    questsCount = countResponse.questsCount;
+    profiles = countResponse.profiles;
+
     loadingStore.set(false);
     allUsers = profiles.map((profile) => profile.nickName);
     allLocations = questsCount.reduce((acc, quest) => {
@@ -50,7 +52,7 @@
   function startPolling() {
     pollInterval = setInterval(() => {
       getData();
-    }, 10000);
+    }, import.meta.env.VITE_POLLING_INTERVAL);
   }
 
   function stopPolling() {
@@ -58,8 +60,9 @@
   }
 
   function showProfile(event) {
+    return;
     const { user } = event.detail;
-    modalProfile = profiles.find((profile) => profile.nickName === user);
+    modalProfile = profiles.find((profile) => profile.data.nickName === user);
     showModalProfile = true;
   }
 

@@ -1,25 +1,35 @@
 <script>
   import { Container, FormGroup, Input, Button } from "@sveltestrap/sveltestrap";
-  import AuthService from "../services/authService";
   import { userStore } from "../stores/userStore";
   import PasswordStrength from "./PasswordStrength.svelte";
+  import { UserService } from "../services/UserService";
   
   let oldPassword = '';
   let newPassword = '';
   let confirmPassword = '';
-  let auth = new AuthService();
+  const userService = new UserService();
 
   $: username = $userStore?.username ?? "";
 
-  function changePassword(evt) {
+  async function changePassword(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
     if (newPassword !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-    evt.preventDefault();
-    evt.stopPropagation();
-    console.log('change password', username);
-    auth.changePassword(username, oldPassword, newPassword);
+    try {
+      await userService.changePassword(username, oldPassword, newPassword);
+      reset();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  function reset() {
+    oldPassword = '';
+    newPassword = '';
+    confirmPassword = '';
   }
 
 </script>

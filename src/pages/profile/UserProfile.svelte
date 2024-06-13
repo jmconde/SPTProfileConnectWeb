@@ -1,8 +1,8 @@
 <script>
   import { Container } from "@sveltestrap/sveltestrap";
-  import NewPassword from "../lib/NewPassword.svelte";
-  import UserTokens from "../lib/UserTokens.svelte";
-  import Collpase from "../lib/Collpase.svelte";
+  import NewPassword from "../../lib/NewPassword.svelte";
+  import ApiKeys from "../../lib/ApiKeys.svelte";
+  import Collpase from "../../lib/Collpase.svelte";
   import 'bootstrap';
 
 </script>
@@ -12,7 +12,7 @@
 
   <div class="mt-5">
     <Collpase text="Api Tokens" collapsed={false}>
-      <UserTokens />
+      <ApiKeys />
     </Collpase>
   </div>
   <div class="mt-5">
