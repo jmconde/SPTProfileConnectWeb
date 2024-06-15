@@ -8,6 +8,6 @@ export function debounce(func, wait) {
   };
 }
 
-export function mask(token, maskChar = "•", showChars = 4) {
+export function mask(token, maskChar = '•', showChars = 4) {
   return token.slice(0, -showChars).replace(/./g, maskChar) + token.slice(-showChars);
 }

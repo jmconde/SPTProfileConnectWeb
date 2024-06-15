@@ -33,6 +33,10 @@ body {
   --gray: #808080;
 }
 
+[data-bs-theme=dark] {
+  --bs-focus-ring-opacity: 0;
+}
+
 .bg-level-1 {
   background-color: var(--bright-red);
 }
@@ -236,7 +240,7 @@ mark.highlighted {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  margin-left: 8px;
+  margin-left: 4px;
   background-color: red;
 }
 .conn-status.connected {

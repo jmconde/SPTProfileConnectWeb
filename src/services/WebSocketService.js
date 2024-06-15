@@ -39,11 +39,12 @@ export class WebSocketService {
     this.socket.addEventListener('error', (err) => {
       console.log('Web Socket Error :>> ', err);
       update(state => ({ ...state, error: err.message }));
-      socket.close(); // Close the connection on error
+      this.socket.close(); // Close the connection on error
     });
   }
 
   attemptReconnect() {
+    const { update } = websocketState;  
     if (this.reconnectAttempts < this.maxReconnectAttempts) {
       this.reconnectAttempts += 1;
       setTimeout(() => this.connect(), this.reconnectDelay);

@@ -58,10 +58,14 @@
 
 <style>
   /* Add your component styles here */
+
+  :global(body[data-bs-theme='dark'] div.multiselect > ul.options) {
+    background-color: var(--bs-body-bg)
+  }
 </style>
 
-<div class="container search mb-3">
-  <div class="row mb-1">
+<div class="container search mb-3 mt-3">
+  <div class="row mb-2">
     <div class="col-md-6 col-sm-1">
       <input
         bind:value={searchText}

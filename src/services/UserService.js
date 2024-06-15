@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { NetworkService } from "./NetworkService";
+import { NetworkService } from './NetworkService';
 
 export class UserService {
   networkService = new NetworkService();  
 
   async generateApiKey(description) {
     return await this.networkService.post({
-      uri: "/api/user/token",
+      uri: '/api/user/token',
       body:{
         description,
         type: 'user'
@@ -20,20 +20,21 @@ export class UserService {
     });
   }
 
-  async listApiKeys(type) {
+  async listApiKeys() {
     return await this.networkService.get({
-      uri: `/api/user/tokens/`,
+      uri: '/api/user/tokens/',
     });
   }
 
   async changePassword(username, oldPassword, newPassword) {
     try {
       return await this.networkService.post({
-        uri: "/api/user/password/change",
+        uri: '/api/user/password/change',
         body: { username, oldPassword, newPassword },
       });
     } catch (error) {
-      throw new Error("error-changing-password");
+      console.log('error :>> ', error);
+      throw new Error('error-changing-password');
     }
   }
 }

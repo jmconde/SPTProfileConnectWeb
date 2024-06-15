@@ -1,7 +1,5 @@
 // @ts-nocheck
-import { get } from "svelte/store";
-import { jwtStore } from "../stores/jwtStore";
-import { NetworkService } from "./NetworkService";
+import { NetworkService } from './NetworkService';
 
 export class AdminService {
   networkService = new NetworkService();
@@ -41,7 +39,7 @@ export class AdminService {
 
   async listNamespaces() {
     return (await this.networkService.get({
-      uri: `/api/admin/namespaces`,
+      uri: '/api/admin/namespaces',
     })).sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -59,7 +57,7 @@ export class AdminService {
       description: description.trim(),
     };
     return await this.networkService.post({
-      uri: `/api/admin/namespace`,
+      uri: '/api/admin/namespace',
       body,
     });
   }

@@ -1,7 +1,6 @@
-import { jwtStore } from "../stores/jwtStore";
+import { jwtStore } from '../stores/jwtStore';
 import { get } from 'svelte/store';
 import AuthService from './authService.js';
-import { insertRaidTotalHealth } from "../lib/helpers";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;

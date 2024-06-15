@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
-import { get } from "svelte/store";
-import { jwtStore } from "../stores/jwtStore";
-import { userStore } from "../stores/userStore";
-import { NetworkService } from "./NetworkService";
+import dayjs from 'dayjs';
+import { get } from 'svelte/store';
+import { jwtStore } from '../stores/jwtStore';
+import { userStore } from '../stores/userStore';
+import { NetworkService } from './NetworkService';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -30,9 +30,9 @@ class AuthService {
   async login(username, password) {
     try {
       const res = await fetch(`${apiUrl}/api/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
       });
@@ -46,7 +46,7 @@ class AuthService {
   }
 
   fromStorage() {
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
     if (token) {
       try {
         const parsed = this.parseJwt(token);
@@ -57,6 +57,7 @@ class AuthService {
         }
         this.persist(token);
       } catch (error) {
+        console.log('error :>> ', error);
         this.removePersistence();
       }
     } else {
@@ -68,25 +69,25 @@ class AuthService {
     const loggedUser = this.parseJwt(token);
     jwtStore.set(token);
     userStore.set(loggedUser);
-    sessionStorage.setItem("token", token);
+    sessionStorage.setItem('token', token);
   }
 
   removePersistence() {
-    jwtStore.set("");
+    jwtStore.set('');
     userStore.set(null);
-    sessionStorage.removeItem("token");
+    sessionStorage.removeItem('token');
   }
 
   async changePasswordWithCode(username, code, newPassword) {
     const res = await fetch(`${apiUrl}/api/user/password/recovery/change`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, code, newPassword }),
     });
     if (!res.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
     const { token } = await res.json();
     this.persist(token);
@@ -94,14 +95,14 @@ class AuthService {
 
   async requestPasswordRecovery(username) {
     const res = await fetch(`${apiUrl}/api/user/password/recovery`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username }),
     });
     if (!res.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
   }
 
@@ -109,21 +110,21 @@ class AuthService {
     if (!token) {
       return;
     }
-    const base64Url = token.split(".")[1] ?? "";
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    const base64Url = token.split('.')[1] ?? '';
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
   }
 
   async validate2FACode(code, username) {
     const res = await fetch(`${apiUrl}/api/auth/code`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ code, username }),
     });
     if (!res.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
   }
 }

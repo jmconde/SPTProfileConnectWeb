@@ -4,6 +4,7 @@
   import QuestCountItem from "./QuestCountItem.svelte";
   import { loadingStore } from "../stores/loadingStore";
   import Loading from "./Loading.svelte";
+  import { t } from '@services/i18n';
 
   export let items = [];
   export let users = [];
@@ -42,7 +43,7 @@
 
 <div class="card mb-2">
   <div class="card-body">
-    <h5 class="card-title">Common quests</h5>
+    <h5 class="card-title">{$t('game.count.title')}</h5>
     <QueryFilter {users} {locations} {traders} on:search={handleSearch} />
     {#if $loadingStore}
       <Loading hasText={true} />

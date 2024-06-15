@@ -30,7 +30,7 @@
   <div class="container mb-4">
     <div class="container-animation">
       <LottiePlayer
-        src='https://lottie.host/1608bb0a-be0b-47b8-b197-7a4587b086ec/pf641p2RTg.json'
+        src='lottie-loading.json'
         autoplay={true}
         loop={true}
         controls={false}

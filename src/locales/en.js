@@ -22,6 +22,7 @@ export default {
         confirm: 'Delete',
         cancel: 'Cancel',
       },
+      description: 'API Key Description (optional)'
     },
   },
   adminUsers: {
@@ -39,4 +40,9 @@ export default {
       },
     },
   },
+  game: {
+    count: {
+      title: 'Common quests',
+    }
+  }
 }
