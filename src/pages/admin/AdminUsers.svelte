@@ -4,6 +4,8 @@
   import { AdminService } from "../../services/AdminService";
   import { t } from "../../services/i18n";
   import SecurePage from "../../lib/SecurePage.svelte";
+  import { confirmModal } from "../../utilities/modal";
+  import { createToast } from "../../stores/toasts";
 
   const adminService = new AdminService();
 
@@ -18,10 +20,22 @@
   }
 
   async function deleteUser(id) {
-    const ok = confirm("Are you sure you want to delete this user?");
-    if (!ok) return;
-    await adminService.deleteUser(id);
-    getData();
+    try {
+      const ok = await confirmModal({
+        title: 'Delete User',
+        message: 'Are you sure you want to delete this user?',
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
+        confirmVariant: 'danger',
+      });
+      if (!ok) return;
+      await adminService.deleteUser(id);
+      createToast('User deleted successfully', 'success');
+      getData();
+    } catch (error) {
+      console.error(error);
+      createToast('Failed to delete user', 'danger');
+    }
   }
 
   onMount(() => {
@@ -36,7 +50,7 @@
     <table class="table mt-4">
       <thead>
         <tr>
-          <th scope="col">username</th>
+          <th scope="col">Username</th>
           <th scope="col">Roles</th>
           <th scope="col">Namespace</th>
           <th scope="col">Actions</th>

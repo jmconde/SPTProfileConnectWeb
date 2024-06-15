@@ -7,7 +7,6 @@ export class WebSocketService {
   constructor(url) {
     if (!WebSocketService.instance) {
       WebSocketService.instance = this;
-      // this.socket = new WebSocket('ws://localhost:3001/ws');
       this.reconnectAttempts = 0;
       this.maxReconnectAttempts = 10;
       this.reconnectDelay = 2000; // 2 
@@ -38,6 +37,7 @@ export class WebSocketService {
     });
 
     this.socket.addEventListener('error', (err) => {
+      console.log('Web Socket Error :>> ', err);
       update(state => ({ ...state, error: err.message }));
       socket.close(); // Close the connection on error
     });

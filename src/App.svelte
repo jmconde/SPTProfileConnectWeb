@@ -10,7 +10,6 @@
   
   import Admin from "./pages/admin/Admin.svelte";
   import AdminUsers from "./pages/admin/AdminUsers.svelte";
-  import AdminCreateUser from "./pages/admin/AdminCreateUser.svelte";
   import AdminNamespaces from "./pages/admin/AdminNamespaces.svelte";
   import AdminNamespace from "./pages/admin/AdminNamespace.svelte";
   import AdminUser from "./pages/admin/AdminUser.svelte";
@@ -25,7 +24,7 @@
 
   
 
-  new WebSocketService('ws://localhost:3001/ws');
+  new WebSocketService(import.meta.env.VITE_WS_URL);
 
   export let url = "";
 
@@ -39,7 +38,6 @@
 <Router {url}>
   <Route path="/forgotten-password"><ForgottenPassword /></Route>
   <Route path="/profile"><UserProfile /></Route>
-  <Route path="/admin/create-user"><AdminCreateUser /></Route>
   <Route path="/admin/users"><AdminUsers /></Route>
   <Route path="/admin/user/:id" let:params><AdminUser id={params.id} /></Route>
   <Route path="/admin/user"><AdminUser /></Route>

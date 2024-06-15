@@ -29,9 +29,9 @@
   });
 
   async function getData() {
-    if (!namespaceId) {
+    if (namespaceId === undefined || namespaceId === null) {
       apiKeys = await userService.listApiKeys();
-    } else {
+    } else if (typeof namespaceId === 'string' && namespaceId.length > 0) {
       apiKeys = await adminService.listNamespaceApiKeys(namespaceId);
     }
     loading = false;
@@ -54,7 +54,6 @@
         } else {
           await adminService.createNamespaceApiKey(namespaceId, $modalData.message);
         }
-        const id = Date.now();
         createToast('Api key generated successfuly', 'success');
       }
       modalData.set({

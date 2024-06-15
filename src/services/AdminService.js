@@ -19,9 +19,10 @@ export class AdminService {
     });
   }
 
-  async listUsers() {
+  async listUsers(params) {
     return await this.networkService.get({
-      uri: '/api/admin/users'
+      uri: '/api/admin/users',
+      params
     });
   }
 
@@ -39,8 +40,14 @@ export class AdminService {
   }
 
   async listNamespaces() {
-    return await this.networkService.get({
+    return (await this.networkService.get({
       uri: `/api/admin/namespaces`,
+    })).sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  async getNamespace(id) {
+    return await this.networkService.get({
+      uri: `/api/admin/namespace/${id}`,
     });
   }
 
@@ -67,6 +74,18 @@ export class AdminService {
     return await this.networkService.patch({
       uri: `/api/admin/namespace/${_id}`,
       body,
+    });
+  }
+
+  async updateUserNamespace(userId, namespaceId) {
+    return await this.networkService.patch({
+      uri: `/api/admin/user/${userId}/namespace/${namespaceId}/change`,
+    });
+  }
+  
+  async resetUserNamespace(userId) {
+    return await this.networkService.patch({
+      uri: `/api/admin/user/${userId}/namespace/reset`,
     });
   }
 
