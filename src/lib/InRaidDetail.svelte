@@ -1,11 +1,14 @@
 <script>
   import { Crosshair, Plus } from "svelte-bootstrap-icons";
-    import InRaidUserStats from "./InRaidUserStats.svelte";
+  import InRaidUserStats from "./InRaidUserStats.svelte";
+  import { t } from "@services/i18n";
 
   export let raid;
-  export let index;
 
-  let teamNames = ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"]
+  $: users = raid.users.map((u) => u.user).join(", ");
+  $: character = raid.character;
+  $: location = raid.location;
+  
   let isOpen = false;
   
   function toggleRaidInfo() {
@@ -23,8 +26,10 @@
 </style>
 
 <p>
-  <Crosshair /><span class="fw-medium ms-1">Team {teamNames[index]}:</span>
-  {raid.users.map((u) => u.user).join(", ")} as {raid.character} on {raid.location}
+  <Crosshair />
+  {#if raid.team}<span class="fw-medium ms-1">{$t('message.raidTeam', { values: { team: raid.team } })}</span>{/if}
+  {$t('message.raidUsers', { values: { users, character, location }})}
+  
 
   <button class="icon-btn float-end" on:click={() => toggleRaidInfo()}
     ><Plus class="float-end" /></button>

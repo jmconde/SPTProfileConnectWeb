@@ -5,7 +5,6 @@
 
   let size = 14;
   theme.subscribe((value) => {
-    console.log('value :>> ', value);
     document.body.setAttribute('data-bs-theme', value);
     localStorage.setItem('theme', value);
   });  

@@ -31,19 +31,21 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{$t(modal.title) || 'Confirm Action'}</h5>
-        <button type="button" class="btn-close" aria-label="Close" on:click={cancel}></button>
+        <h5 class="modal-title">{$t(modal.title) || $t('title.confirmModal')}</h5>
+        <button type="button" class="btn-close" aria-label={$t('common.close')} on:click={cancel}></button>
       </div>
       <div class="modal-body">
         {#if modal.customContent}
           <svelte:component this={modal.customContent} />
         {:else}
-          <p>{$t(modal.message) || 'Are you sure you want to proceed?'}</p>
+          <p>{$t(modal.message) || $t('message.proceedConfirmation')}</p>
         {/if}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-{cancelVariant}" on:click={cancel}>{$t(modal.cancelText) || 'Cancel'}</button>
-        <button type="button" class="btn btn-{confirmVariant}" on:click={confirm}>{$t(modal.confirmText) || 'Confirm'}</button>
+        {#if !modal.hideCancel}
+          <button type="button" class="btn btn-{cancelVariant}" on:click={cancel}>{$t(modal.cancelText) || $t('common.cancel')}</button>
+        {/if}
+        <button type="button" class="btn btn-{confirmVariant}" on:click={confirm}>{$t(modal.confirmText) || $t('common.confirm')}</button>
       </div>
     </div>
   </div>

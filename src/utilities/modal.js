@@ -19,3 +19,17 @@ export function confirmModal(options) {
     });
   });
 }
+
+export function alertModal(options) {
+  return new Promise((resolve) => {
+    modalState.set({
+      show: true,
+      hideCancel: true,
+      ...options,
+      onConfirm: () => {
+        resolve(true);
+        modalState.set({ show: false });
+      }
+    });
+  });
+}

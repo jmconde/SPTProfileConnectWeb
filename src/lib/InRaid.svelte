@@ -1,7 +1,7 @@
 <script>
-  import { Alert } from "@sveltestrap/sveltestrap";
   import { openRaidsStore } from "../stores/raidsStore";
   import InRaidDetail from "./InRaidDetail.svelte";
+  import { t } from "@services/i18n";
 
   export let raids = [];
   let isOpen = false;
@@ -20,11 +20,12 @@
   $: isOpen = (raids ?? []).length > 0;
 </script>
 
-<Alert {isOpen} color="primary" heading="Raid(s) in progress">
-  {#each raids as raid, i}
-    <InRaidDetail {raid} index={i} />
-  {/each}
-</Alert>
+{#if isOpen}
+  <div class="alert alert-primary" role="alert">
+    <h4 class="alert-heading">{$t('title.raidInProgress', { values: {n: raids.length} })}</h4>
+    {#each raids as raid, i}
+      <InRaidDetail {raid} />
+    {/each}
+  </div>
+{/if}
 
-<style>
-</style>

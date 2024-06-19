@@ -2,7 +2,7 @@
   import { Router, Link, navigate, link } from 'svelte-routing';
   import LoginModal from './modals/LoginModal.svelte';
   import ThemeSwitcher from './ThemeSwitcher.svelte';
-  import AuthService from '../services/authService';
+  import { AuthService } from "@services/AuthService";
   import { userStore } from '../stores/userStore';
   import { _ } from '@services/i18n';
   import { websocketState } from '../stores/websocket';
@@ -84,35 +84,5 @@
     </ul>
   </div>
 </nav>
-
-<!-- <Navbar color="dark" theme="dark">
-  <NavbarBrand>{$_('header.brand')}
-    <a href="/changelog" use:link><span class="version">v{version}</span></a>
-    <div class="conn-status" class:connected={$websocketState.connected}></div></NavbarBrand>
-  <Nav>
-    <NavItem>
-      <ThemeSwitcher />
-    </NavItem>
-    <Router>
-      {#if isAuthenticated}
-        {#if isAdmin}
-          <NavItem>
-            <Link class="button-link" to="/admin">{$_('header.adminPanel')}</Link>
-          </NavItem>
-        {/if}
-        <NavItem>
-          <a class="button-link" href="/profile" use:link>{$_('header.profile', { values: { username }})}</a>
-        </NavItem>
-        <NavItem>
-          <button class="button-link" on:click={logout}>{$_('header.logout')}</button>
-        </NavItem>
-      {:else}
-        <NavItem>
-          <button class="button-link" on:click={() => isLoginModalOpen = true}>{$_('header.login')}</button>
-        </NavItem>
-      {/if}
-    </Router>
-  </Nav>
-</Navbar> -->
 
 <LoginModal isOpen={isLoginModalOpen} on:close={() => isLoginModalOpen = false} />

@@ -1,11 +1,11 @@
 import { jwtStore } from '../stores/jwtStore';
 import { get } from 'svelte/store';
-import AuthService from './authService.js';
+import { AuthService } from "@services/AuthService";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
 
-class ProfilesService {
+export class ProfilesService {
   apiKey = get(jwtStore);
   authService = new AuthService();
 
@@ -93,5 +93,3 @@ class ProfilesService {
     }
   }
 }
-
-export default ProfilesService;

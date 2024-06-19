@@ -1,9 +1,11 @@
 <script>
+  // @ts-ignore
   import { LottiePlayer } from '@lottiefiles/svelte-lottie-player';
+  import { t } from '@services/i18n';
 
   export let loading = true;
   export let hasText = false;
-  export let text = 'Loading...';
+  export let text = $t('common.loading');
 </script>
 
 <style lang="scss">

@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from "svelte";
+  import { t } from "@services/i18n";
 
   export let password = "";
   let strength = 0;
@@ -34,13 +34,13 @@
   $: {
     strength = checkPasswordStrength(password);
     if (strength <= 1) {
-      strengthMessage = "Weak";
+      strengthMessage = $t('common.weak');
       strengthClass = "danger";
     } else if (strength <= 3) {
-      strengthMessage = "Moderate";
+      strengthMessage = $t('common.moderate');
       strengthClass = "warning";
     } else {
-      strengthMessage = "Strong";
+      strengthMessage = $t('common.strong');
       strengthClass = "success";
     }
   }

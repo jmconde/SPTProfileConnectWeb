@@ -1,7 +1,7 @@
 {
   "name": "spt-web",
   "private": true,
-  "version": "2.0.2",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "start": "http-server ./dist -c-1",
@@ -11,15 +11,14 @@
     "preview": "vite preview",
     "optimize": "vite optimize",
     "docker-build": "docker build -t arhuako/spt-web:latest .",
-    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.0.2",
-    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.0.2",
+    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.1.0",
+    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.1.0",
     "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@lottiefiles/svelte-lottie-player": "^0.3.1",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@sveltestrap/sveltestrap": "^6.2.7",
     "dotenv": "^16.4.5",
     "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
@@ -40,10 +39,11 @@
     "express": "^4.19.2",
     "http-server": "^14.1.1",
     "page": "^1.11.6",
+    "pino": "^9.2.0",
     "svelte-copy": "^1.4.2",
     "svelte-i18n": "^4.0.0",
     "svelte-multiselect": "^10.3.0"
   },
   "author": "arhuako",
-  "reposityory": "github:jmconde/SPTProfileConnectWeb"
+  "reposityory": "github:arhuako/SPTProfileConnectWeb"
 }

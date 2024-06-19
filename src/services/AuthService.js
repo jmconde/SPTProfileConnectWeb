@@ -6,7 +6,7 @@ import { NetworkService } from './NetworkService';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-class AuthService {
+export class AuthService {
   maxTries = 3;
   networkService = new NetworkService();
   constructor() {
@@ -128,5 +128,3 @@ class AuthService {
     }
   }
 }
-
-export default AuthService;

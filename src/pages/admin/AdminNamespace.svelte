@@ -5,6 +5,9 @@
   import { navigate } from "svelte-routing";
   import ApiKeys from "../../lib/ApiKeys.svelte";
   import { createToast } from "../../stores/toasts";
+  import { t } from '@services/i18n';
+  import SecurePage from "../../lib/SecurePage.svelte";
+  import Collapse from "../../lib/Collpase.svelte";
 
   export let id = "";
 
@@ -17,13 +20,16 @@
   };
   let users = [];
   let selectedUsers = [];
+  let originalUsers = [];
 
   $: isNew = !id;
+  $: isDefault = namespace.default;
 
   async function getData() {
     if (!isNew) {
       namespace = await adminService.getNamespace(id);
       selectedUsers = namespace.users.map(mapUser);
+      originalUsers = [...selectedUsers];
       namespace.users = [...selectedUsers];
     }
     users = (await adminService.listUsers({ available: true })).map(mapUser);
@@ -42,35 +48,35 @@
     try {
       await adminService.createNamespace(namespace);
       navigate("/admin/namespaces");
-      createToast("Namespace created successfully", "success");
+      createToast($t('toast.namespaceCreationSuccessful'), "success");
     } catch (error) {
       console.error(error);
-      createToast("Failed to create namespace", "danger");
+      createToast($t('toast.namespaceCreationFailed'), "danger");
     }
   }
 
   async function updateNamespace() {
     try {
-      const originalUsers = [...namespace.users];
-      namespace.users = users.reduce((acc, u) => {
-        const isOriginal = !!originalUsers.find((ou) => ou._id === u._id);
-        const isSelected = !!selectedUsers.find((su) => su._id === u._id);
+      
+      namespace.users = adminService.getNamespaceUsersChanges(originalUsers, selectedUsers);
 
-        if (isSelected || isOriginal) {
-          acc.push({
-            id: u._id,
-            removed: isOriginal && !isSelected,
-          });
-        }
-        return acc;
-      }, []);
       await adminService.updateNamespace(namespace);
-      createToast("Namespace updated successfully", "success");
+      createToast($t('toast.namespaceUpdateSuccessful'), "success");
       navigate('/admin/namespaces');
     } catch (error) {
       console.error(error);
-      createToast('Failed to update namespace', 'danger');
+      createToast($t('toast.namespaceUpdateFailed'), 'danger');
     }
+  }
+
+  function itemRemoved(event) {
+    const { option } = event.detail;
+    if (!users.includes(option)) {
+      users.push(option);
+    }
+    // const { item } = event.detail;
+    // const index = selectedUsers.findIndex((u) => u._id === item._id);
+    // selectedUsers.splice(index, 1);
   }
 
   onMount(() => {
@@ -78,29 +84,32 @@
   });
 </script>
 
-<div class="container">
-  <h1>
-    {#if isNew}New Namespace{:else}Edit Namespace{/if}
-  </h1>
-  <div class="card mt-5">
-    <div class="card-header">
-      <h5 class="card-title">Namespace</h5>
-    </div>
-    <div class="card-body">
+<SecurePage roles={['admin']}>
+  <div class="container">
+    <h1 class="d-flex justify-content-between mt-5">
+      <span>{#if isNew}{$t('title.createNamespace')}{:else if isDefault}{$t('title.defaultNamespace')}{:else}{$t('title.editNamespace')}{/if}</span>
+      <button
+        type="button"
+        class="btn btn-light"
+        on:click={() => navigate("/admin/namespaces")}>{$t('button.back')}</button
+      >
+    </h1>
+    <Collapse title={$t('common.namespace')}>
       <form>
         <div class="mb-3">
-          <label for="name" class="form-label">Namespace name</label>
+          <label for="name" class="form-label">{$t('label.name')}</label>
           <input
             bind:value={namespace.name}
             type="text"
             class="form-control"
             id="name"
             name="name"
+            disabled={isDefault}
           />
         </div>
         <div class="mb-3">
           <label for="description" class="form-label"
-            >Namespace description</label
+            >{$t('common.description')}</label
           >
           <input
             bind:value={namespace.description}
@@ -108,50 +117,45 @@
             class="form-control"
             id="description"
             name="description"
+            disabled={isDefault}
           />
         </div>
         <div class="mb-3">
-          <label for="description" class="form-label">Users</label>
+          <label for="description" class="form-label">{$t('common.users')}</label>
           <MultiSelect
-            placeholder="Select users..."
+            placeholder={$t('placeholder.selectUsers')}
             bind:selected={selectedUsers}
             options={users}
             let:option
+            disabled={isDefault}
+            on:remove={itemRemoved}
           >
             {option.username}
           </MultiSelect>
         </div>
-        <div class="button-group mt-5">
-          {#if isNew}
-            <button
-              type="button"
-              class="btn btn-primary"
-              on:click={createNamespace}>Create</button
-            >
-          {:else}
-            <button
-              type="button"
-              class="btn btn-primary"
-              on:click={updateNamespace}>Update</button
-            >
-          {/if}
-          <button
-            type="button"
-            class="btn"
-            on:click={() => navigate("/admin/namespaces")}>Back</button
-          >
-        </div>
+        {#if !isDefault}
+          <div class="button-group mt-5">
+            {#if isNew}
+              <button
+                type="button"
+                class="btn btn-primary"
+                on:click={createNamespace}>{$t('button.createNamespace')}</button
+              >
+            {:else}
+              <button
+                type="button"
+                class="btn btn-primary"
+                on:click={updateNamespace}>{$t('button.updateNamespace')}</button
+              >
+            {/if}
+          </div>
+        {/if}
       </form>
-    </div>
-  </div>
-  {#if !isNew}
-    <div class="card mt-5">
-      <div class="card-header">
-        <h5 class="card-title">Namespace API Keys</h5>
-      </div>
-      <div class="card-body">
+    </Collapse>
+    {#if !isNew}
+      <Collapse class="mt-4" title={$t('title.namespaceApiKeys')} collapsed={false}>
         <ApiKeys namespaceId={id} />
-      </div>
-    </div>
-  {/if}
-</div>
+      </Collapse>
+    {/if}
+  </div>
+</SecurePage>

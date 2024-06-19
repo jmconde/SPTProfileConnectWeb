@@ -1,8 +1,9 @@
 <script>
   import { createEventDispatcher } from "svelte";
   import { fade } from 'svelte/transition';
-  import AuthService from "../../services/authService";
+  import { AuthService } from "@services/AuthService";
   import { createToast } from "../../stores/toasts";
+  import { t } from '@services/i18n';
 
   export let isOpen = false;
   let username = "";
@@ -44,19 +45,19 @@
         </div>
         <form on:submit|preventDefault|stopPropagation|once={() => {}}>
           <div class="modal-body">
-              <div class="form-floating mb-3">
-                <input bind:value={username} type="text" class="form-control" id="username" name="username" placeholder="Username" />
-                <label for="username" class="form-label">Username</label>
+              <div class="mb-3">
+                <label for="username" class="form-label">{$t('common.username')}</label>
+                <input bind:value={username} type="text" class="form-control" id="username" name="username" />
               </div>
-              <div class="form-floating mb-3">
-                <input bind:value={password} type="password" class="form-control" id="password" name="password" placeholder="Password" />
-                <label for="password" class="form-label">Password</label>
+              <div class="mb-3">
+                <label for="password" class="form-label">{$t('label.password')}</label>
+                <input bind:value={password} type="password" class="form-control" id="password" name="password" />
               </div>
-            <a href="/forgotten-password">Forgotten Password?</a>
+            <a href="/forgotten-password">{$t('link.forgottenPassword')}?</a>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" on:click|preventDefault|stopPropagation|once={closeModal}>Cancel</button>
-            <button type="submit" class="btn btn-primary" on:click|preventDefault|stopPropagation|once={doLogin}>Login</button>
+            <button type="button" class="btn btn-secondary" on:click|preventDefault|stopPropagation|once={closeModal}>{$t('button.cancel')}</button>
+            <button type="submit" class="btn btn-primary" on:click|preventDefault|stopPropagation|once={doLogin}>{$t('button.login')}</button>
           </div>
         </form>
       </div>

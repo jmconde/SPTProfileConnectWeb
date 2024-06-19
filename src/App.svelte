@@ -6,7 +6,7 @@
   import NotFound from "./pages/NotFound.svelte";
   import Changelog from "./pages/Changelog.svelte";
   import { onMount } from "svelte";
-  import AuthService from "./services/authService";
+  import { AuthService } from "@services/AuthService";
   import ForgottenPassword from "./pages/ForgottenPassword.svelte";
   
   import Admin from "./pages/admin/Admin.svelte";
@@ -19,12 +19,16 @@
 
   import { setupI18n } from './services/i18n.js';
   import { WebSocketService } from "./services/WebSocketService.js";
+
+  import { LoggingService } from "@services/LoggingService";  
   
   setupI18n({ withLocale: 'en' });
 
   new WebSocketService(import.meta.env.VITE_WS_URL);
 
   export let url = "";
+
+  const logger = new LoggingService().logger;
 
   onMount(() => {
     const auth = new AuthService();

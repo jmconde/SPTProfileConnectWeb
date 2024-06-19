@@ -5,14 +5,18 @@
   import { AdminService } from "../../services/AdminService";
   import { confirmModal } from "../../utilities/modal";
   import { createToast } from "../../stores/toasts";
+  import { t } from '@services/i18n';
 
   const adminService = new AdminService();
 
   let namespaces = [];
 
   async function getData() {
-    namespaces = await adminService.listNamespaces();
-    console.log("namespaces :>> ", namespaces);
+    namespaces = (await adminService.listNamespaces()).sort((a, b) => {
+      if (a.default) return -1;
+      if (b.default) return 1;
+      return a.name.localeCompare(b.name);
+    });
   }
   
   function editNS (namespace) {
@@ -22,19 +26,19 @@
   async function deleteNS(namespace) {
     try {
       const ok = await confirmModal({
-        title: 'Delete Namespace',
-        message: 'Are you sure you want to delete this namespace?',
-        confirmText: 'Delete',
-        cancelText: 'Cancel',
+        title: $t('title.deleteNamespaceModal'),
+        message: $t('message.deleteNamespaceModal'),
+        confirmText: $t('button.delete'),
+        cancelText: $t('button.cancel'),
         confirmVariant: 'danger',
       });
       if (!ok) return;
       await adminService.deleteNamespace(namespace._id);
-      createToast('Namespace deleted successfully', 'success');
+      createToast($t('toast.namespaceDeletionSuccessful'), 'success');
       getData();
     } catch (error) {
       console.error(error);
-      createToast('Failed to delete namespace', 'danger');
+      createToast($t('toast.namespaceDeletionFailed'), 'danger');
     }
   }
 
@@ -45,43 +49,55 @@
 
 <SecurePage roles={["admin"]}>
   <div class="container">
-    <h1 class="mt-5">Namespaces</h1>
+    <h1 class="d-flex justify-content-between mt-5">
+      <span>{$t('title.namespaces')}</span>
+      <button
+        type="button"
+        class="btn btn-light"
+        on:click={() => navigate("/admin")}>{$t('button.back')}</button
+      >
+    </h1>
     <table class="table mt-4">
       <thead>
         <tr>
-          <th scope="col">Namespace</th>
-          <th scope="col">Description</th>
-          <th scope="col">Users</th>
-          <th scope="col">Actions</th>
+          <th scope="col">{$t('common.namespace')}</th>
+          <th scope="col">{$t('common.description')}</th>
+          <th scope="col">{$t('common.users')}</th>
+          <th scope="col">{$t('common.actions')}</th>
         </tr>
       </thead>
       <tbody>
     {#each namespaces as namespace}
       <tr>
-        <td>{namespace.name}</td>
-        <td>{namespace.description || ''}</td>
-        <td>
+        <td class:default={namespace.default}>{namespace.name}</td>
+        <td class:default={namespace.default}>{namespace.description || ''}</td>
+        <td class:default={namespace.default}>
           {#each namespace.users as user, i}
             {user.username}
             {#if i < namespace.users.length - 1}<span>&nbsp;-&nbsp;</span>{/if}
           {/each}
         </td>
         <td>
+          
           <button class="btn btn-sm btn-primary" on:click={() => editNS(namespace)}
-            >Edit</button>
-          <button class="btn btn-sm btn-danger" on:click={() => deleteNS(namespace)}
-            >Delete</button>
+            >{#if namespace.default}{$t('button.view')}{:else}{$t('button.edit')}{/if}</button>
+          <button class="btn btn-sm btn-danger" on:click={() => deleteNS(namespace)} disabled={namespace.default}
+            >{$t('button.delete')}</button>
         </td>
       </tr>
     {/each}
     </tbody>
     <div class="button-group mt-5">
       <button class="btn btn-primary me-2" on:click={() => navigate("/admin/namespace")}
-        >New Namespace</button
-      >
-      <button class="btn btn-light" on:click={() => navigate("/admin")}
-        >Back</button
+        >{$t('button.createNamespace')}</button
       >
     </div>
   </div>
 </SecurePage>
+
+<style>
+  .default {
+    opacity: 0.5;
+    font-style: italic;
+  }
+</style>

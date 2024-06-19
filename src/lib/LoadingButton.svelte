@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { t } from "@services/i18n";
 
   export let isLoading = false;
   export let buttonText = "Submit";
@@ -21,7 +22,7 @@
 >
   {#if isLoading}
     <span class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span>
-    <span class="visually-hidden">Loading...</span>
+    <span class="visually-hidden">{$t('common.loading')}</span>
   {/if}
   {!isLoading && buttonText}
 </button>

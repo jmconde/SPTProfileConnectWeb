@@ -1,9 +1,8 @@
 <script>
-  import { Container } from "@sveltestrap/sveltestrap";
-
+  import { t } from "@services/i18n";
 
 </script>
 
-<Container>
-  <h1>Page not found</h1>
-</Container>
+<div class="container">
+  <h1 class="mt-5">{$t('404.message')}</h1>
+</div>

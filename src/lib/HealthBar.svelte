@@ -9,9 +9,6 @@
   
   $: percentage = Math.floor((value / max) * 100);
   
-  // const colors = getColorScale(steps, '#ff5252', '#4caf50');
-  // console.log('colors :>> ', colors);
-
   function getHealthColor(value) {
     const stepSize = 100 / stepColors.length;
     const color = stepColors[Math.floor(value / stepSize) - 1]

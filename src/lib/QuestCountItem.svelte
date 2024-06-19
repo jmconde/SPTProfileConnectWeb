@@ -22,7 +22,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     display: inline-grid;
-    grid-template-columns: 40px calc(100% - 20px);
+    grid-template-columns: 40px calc(100% - 40px);
     justify-content: center;
     margin-bottom: 8px;
   }

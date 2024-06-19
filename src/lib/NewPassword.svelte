@@ -1,8 +1,9 @@
 <script>
-  import { Container, FormGroup, Input, Button } from "@sveltestrap/sveltestrap";
   import { userStore } from "../stores/userStore";
   import PasswordStrength from "./PasswordStrength.svelte";
   import { UserService } from "../services/UserService";
+  import { t } from '@services/i18n';
+  import { alertModal } from "../utilities/modal";
   
   let oldPassword = '';
   let newPassword = '';
@@ -15,7 +16,11 @@
     evt.preventDefault();
     evt.stopPropagation();
     if (newPassword !== confirmPassword) {
-      alert('Passwords do not match');
+      await alertModal({
+        message: $t('message.passwordMismatch'),
+        confirmText: $t('common.ok'),
+        confirmVariant: 'danger',
+      });
       return;
     }
     try {
@@ -34,23 +39,26 @@
 
 </script>
 
-<Container class="mt-2">
-  <p>Enter your new password below.</p>
-  <form>
-    <FormGroup floating label="Old Password">
-      <Input bind:value={oldPassword} type="password" name="old-password" id="old-password" />
-    </FormGroup>
-    <FormGroup floating label="New Password">
-      <Input bind:value={newPassword} type="password" name="password" id="password" />
+<div class="container mt-2 mb-5">
+  <p>{$t('message.enterNewPassword')}</p>
+  <form on:submit|preventDefault|stopPropagation|once={() => {}}>
+    <div class="mb-3">
+      <label for="old-password" class="form-label">{$t('label.oldPassword')}</label>
+      <input bind:value={oldPassword} type="password" class="form-control" id="old-password" name="old-password" />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">{$t('label.newPassword')}</label>
+      <input bind:value={newPassword} type="password" class="form-control" id="password" name="password" />
       {#if newPassword.length > 0}
         <div class="mt-3">
           <PasswordStrength password={newPassword}/>
         </div>
       {/if}
-    </FormGroup>
-    <FormGroup floating label="Confirm New Password">
-      <Input bind:value={confirmPassword} type="password" name="confirm-password" id="confirm-password" />
-    </FormGroup>
-    <Button color="primary" on:click={changePassword}>Submit</Button>
+    </div>
+    <div class="mb-3">
+      <label for="confirm-password" class="form-label">{$t('label.passwordConfirmation')}</label>
+      <input bind:value={confirmPassword} type="password" class="form-control" id="confirm-password" name="confirm-password" />
+    </div>
+    <button type="button" class="btn btn-primary" on:click={changePassword}>{$t('button.changePassword')}</button>
   </form>
-</Container>
+</div>

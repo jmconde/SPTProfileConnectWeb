@@ -1,4 +1,5 @@
 <script>
+  import { t } from "@services/i18n";
   import usecLogo from "./assets/images/side_usec.png";
   import bearLogo from "./assets/images/side_bear.png";
 
@@ -7,7 +8,6 @@
   let quests = [];
   let data = {};
   $:{
-    console.log('profile :>> ', profile);
     data = profile.data;
     quests = profile.activeQuests;
   }
@@ -26,9 +26,9 @@
       </div>
       <div class="nicnkname">
         <div class="card-title-nickname mb-0">{data.nickName}</div>
-        <span class="card-level"><em>Level {data.level}</em></span>
+        <span class="card-level"><em>{$t('common.level')} {data.level}</em></span>
       </div>
-      <span class="badge text-bg-primary">{quests.length} Quests</span>
+      <span class="badge text-bg-primary">{$t('common.quest', { values: { n: quests.length}})}</span>
     </div>
     {#each quests as quest}
       <span

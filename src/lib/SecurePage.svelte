@@ -3,7 +3,7 @@
   import { navigate } from "svelte-routing";
   import { userStore } from "../stores/userStore";
   import { get } from "svelte/store";
-  import AuthService from "../services/authService";
+  import { AuthService } from "@services/AuthService";
 
   export let roles = [];
 

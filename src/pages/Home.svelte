@@ -4,7 +4,7 @@
   import ProfileModal from "../lib/ProfileModal.svelte";
   import QuestsCount from "../lib/QuestsCount.svelte";
 
-  import ProfilesService from "../services/profilesService";
+  import { ProfilesService } from "@services/ProfilesService";
   import "bootstrap/dist/css/bootstrap.min.css";
   import GeneratorAlert from "../lib/GeneratorAlert.svelte";
   import { loadingStore } from "../stores/loadingStore";

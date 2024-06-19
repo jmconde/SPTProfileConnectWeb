@@ -1,9 +1,8 @@
 <script>
   // Add your script logic here
-
-  import { Button, Container } from "@sveltestrap/sveltestrap";
   import { navigate } from "svelte-routing";
   import SecurePage from "../../lib/SecurePage.svelte";
+  import { t } from "@services/i18n";
 
   function goto(route) {
     navigate(route);
@@ -15,15 +14,15 @@
 </style>
 
 <SecurePage roles={['admin']}>
-  <Container class="mt-2">
-    <h1>Admin page</h1>
+  <div class="container">
+    <h1 class="mt'5">{$t('title.adminPage')}</h1>
     <div class="card mt-4">
       <div class="card-body">
-        <Button color="primary" on:click={() => goto("/admin/users")}>Users</Button>
-        <Button color="primary" on:click={() => goto("/admin/namespaces")}>Namespaces</Button>
+        <button type="button" class="btn btn-primary" on:click={() => goto("/admin/users")}>{$t('common.users')}</button>
+        <button type="button" class="btn btn-primary" on:click={() => goto("/admin/namespaces")}>{$t('common.namespaces')}</button>
       </div>
     </div>
-  </Container>
+  </div>
 </SecurePage>
 
 <!-- Add your component markup here -->

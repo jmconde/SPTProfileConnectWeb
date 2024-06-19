@@ -1,5 +1,4 @@
 <script>
-  import { Button, Container } from "@sveltestrap/sveltestrap";
   import { onMount } from "svelte";
   import { t } from "../services/i18n.js";
   import { copy } from 'svelte-copy';
@@ -14,12 +13,14 @@
   import { AdminService } from "../services/AdminService.js";
   import ApiKeyModalContent from "./modals/ApiKeyModalContent.svelte";
   import { mask } from "../utilities/helper.js";
+  import { LoggingService } from "@services/LoggingService.js";
   
 
   export let namespaceId = '';
 
   const userService = new UserService();
   const adminService = new AdminService();
+  const logger = new LoggingService().logger;
   
   let apiKeys = [];
   let loading = true;
@@ -29,7 +30,7 @@
   });
 
   async function getData() {
-    if (namespaceId === undefined || namespaceId === null) {
+    if (namespaceId === undefined || namespaceId === null || namespaceId === '') {
       apiKeys = await userService.listApiKeys();
     } else if (typeof namespaceId === 'string' && namespaceId.length > 0) {
       apiKeys = await adminService.listNamespaceApiKeys(namespaceId);
@@ -61,8 +62,8 @@
     });
       getData();
     } catch (error) {
-      console.log('error :>> ', error);
       createToast('Error generating api key', 'danger');
+      logger.error(error);
     }
   }
 
@@ -86,7 +87,7 @@
         createToast('Api key deleted successfuly', 'success');
       }
     } catch (error) {
-      console.log('error :>> ', error);
+      logger.error(error, 'Error deleting api key');
       createToast('Error deleting api key', 'danger');
     }   
   }
@@ -96,7 +97,7 @@
   });
 </script>
 
-<Container class="mt-2">
+<div class="container mt-2">
   <div class="mb-4">
     {#if loading}
       <Loading />
@@ -109,12 +110,10 @@
         {#each apiKeys as key}
           <div class="list-group-item">
             <div class="token">
-              <div class="text-truncate">{mask(key.token)} <button class="btn btn-sm btn-copy" use:copy={key.token}><Copy width={12} /></button></div>
+              <div class="text-truncate">{mask({token: key.token, start: 10})} <button class="btn btn-sm btn-copy" use:copy={key.token}><Copy width={12} /></button></div>
               <div class="text-truncate">{#if key.description}{key.description}{/if}</div>
               <div class="button">
-                <Button class="button" size="sm" color="danger" on:click={() => deleteToken(key)}
-                  ><X /></Button
-                >
+                <button class="btn btn-sm btn-danger" on:click={() => deleteToken(key)}><X /></button>
               </div>
             </div>
           </div>
@@ -122,10 +121,8 @@
       </div>
     {/if}
   </div>
-
-  <Button color="primary" on:click={generateApiKey}>{$t("userTokens.generate")}</Button
-  >
-</Container>
+  <button class="btn btn-primary" on:click={generateApiKey}>{$t("userTokens.generate")}</button>
+  </div>
 
 <style>
   .token {

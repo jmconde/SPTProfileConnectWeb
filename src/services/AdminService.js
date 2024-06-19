@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { NetworkService } from './NetworkService';
+import { ServiceBase } from './ServiceBase';
 
-export class AdminService {
+export class AdminService extends ServiceBase{
   networkService = new NetworkService();
 
   async updateUser(user) {
@@ -113,5 +114,11 @@ export class AdminService {
     return await this.networkService.delete({
       uri: `/api/admin/namespace/${namespaceId}/token/${token._id}`,
     });
+  }
+
+  getNamespaceUsersChanges(originalUsers, selectedUsers) {
+    const added = selectedUsers.filter((su) => !originalUsers.find((ou) => ou._id === su._id)).map((u) => ({ id: u._id, added: true }));
+    const removed = originalUsers.filter((ou) => !selectedUsers.find((su) => su._id === ou._id)).map((u) => ({ id: u._id, removed: true }));
+    return [...added, ...removed];
   }
 }

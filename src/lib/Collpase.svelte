@@ -3,10 +3,11 @@
   import ChevronUp from "svelte-bootstrap-icons/lib/ChevronUp.svelte";
   import * as bootstrap from "bootstrap";
 
-  export let text;
+  export let title;
   export let collapsed = false;
 
   let collapseElement;
+  let inheritedClasses = $$restProps.class ?? '';
 
   function toggleCollapse() {
     const bsCollapse = new bootstrap.Collapse(collapseElement);
@@ -16,18 +17,27 @@
 
   onMount(() => {
     new bootstrap.Collapse(collapseElement, {
-      toggle: !collapsed,
+      toggle: collapsed,
     });
   });
 </script>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<h3 class="collapse-header" on:click={toggleCollapse}>
-  <span>{text}</span> 
-  <span class="button-icon" class:is-collapsed={collapsed}><ChevronUp /></span></h3>
-<div bind:this={collapseElement} class="collapse">
-  <slot></slot>
+
+<div class="card {inheritedClasses}">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="card-header" on:click={toggleCollapse} aria-expanded="true" aria-controls="collapseApiKeys" style="cursor: pointer;">
+    <h5 class="collapse-header card-title">
+      <span>{title}</span>
+      <span class="button-icon" class:is-collapsed={collapsed}><ChevronUp /></span>
+    </h5>
+  </div>
+  <div bind:this={collapseElement} id="collapseApiKeys" class="collapse show">
+    <div class="card-body">
+      <slot></slot>
+    </div>
+  </div>
 </div>
+
 
 <style>
   .collapse-header {

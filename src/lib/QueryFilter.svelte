@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { t } from '@services/i18n';
   import MultiSelect from 'svelte-multiselect';
 
   const dispatch = createEventDispatcher();
@@ -71,15 +72,15 @@
         bind:value={searchText}
         type="text"
         class="form-control"
-        placeholder="Search..."
-        aria-label="Search"
-        aria-describedby="search"
+        placeholder={$t('placeholder.search')}
+        aria-label={$t('common.search')}
+        aria-describedby={$t('common.search')}
         on:input={handleSearch}
       />
     </div>
     <div class="col-md-3">
       <select class="form-select" bind:value={selectedTrader} on:change={setQuery}>
-        <option value="">Select trader...</option>
+        <option value="">{$t('placeholder.selectTrader')}</option>
         {#each traders as option}
           <option value={option}>{option}</option>
         {/each}
@@ -87,7 +88,7 @@
     </div>        
     <div class="col-md-3">
       <select class="form-select" bind:value={selectedLocation} on:change={setQuery}>
-        <option value="">Select location...</option>
+        <option value="">{$t('placeholder.selectLocation')}</option>
         {#each locations as option}
           <option value={option}>{option}</option>
         {/each}
@@ -97,14 +98,14 @@
   <div class="row">
     <div class="col-md-10">
       <MultiSelect
-        placeholder="Select users..."
+        placeholder={$t('placeholder.selectUsers')}
         bind:selected={selectedUsers} options={users} 
         on:change={handleSelectUsers}
         on:removeAll={() => selectedUsers = []} />
     </div>
     <div class="col-md-2">
       <div class="d-grid gap-2">
-        <button type="button" class="btn btn-secondary" on:click={handleClear}>Clear</button>
+        <button type="button" class="btn btn-secondary" on:click={handleClear}>{$t('common.clear')}</button>
       </div>
     </div>
   </div>
