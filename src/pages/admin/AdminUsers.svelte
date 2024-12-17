@@ -1,11 +1,12 @@
 <script>
   import { onMount } from "svelte";
   import { navigate } from "svelte-routing";
-  import { AdminService } from "../../services/AdminService";
-  import { t } from "../../services/i18n";
-  import SecurePage from "../../lib/SecurePage.svelte";
-  import { confirmModal } from "../../utilities/modal";
-  import { createToast } from "../../stores/toasts";
+
+  import SecurePage from "@lib/SecurePage.svelte";
+  import { AdminService } from "@services/AdminService";
+  import { t } from "@services/i18n";
+  import { createToast } from "@stores/toasts";
+  import { confirmModal } from "@utils/modal";
 
   const adminService = new AdminService();
 

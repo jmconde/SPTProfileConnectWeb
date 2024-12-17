@@ -28,7 +28,6 @@
   modalData.set({
     message: '',
   });
-
   async function getData() {
     if (namespaceId === undefined || namespaceId === null || namespaceId === '') {
       apiKeys = await userService.listApiKeys();

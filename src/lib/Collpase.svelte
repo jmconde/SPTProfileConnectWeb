@@ -36,8 +36,7 @@
       <slot></slot>
     </div>
   </div>
-</div>
-
+</div> 
 
 <style>
   .collapse-header {

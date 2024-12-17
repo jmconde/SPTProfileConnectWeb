@@ -16,3 +16,35 @@ export function mask({token, maskChar = '•', showChars = 4, start = 10}) {
   const startMask = last - start;
   return token.slice(startMask, last).replace(/./g, maskChar) + token.substring(last);
 }
+
+export function defaultImage(node, defaultSrc) {
+  const handleError = () => {
+    node.src = defaultSrc;
+    node.onerror = null; // Prevent loop if default image fails to load
+  };
+  node.addEventListener('error', handleError);
+  return {
+    destroy() {
+      node.removeEventListener('error', handleError);
+    }
+  };
+}
+
+
+export const CURRENCIES_MAP = {
+  roubles: {
+    symbol: '₽',
+    name: 'Roubles',
+    code: 'RUB',
+  },
+  dollars: {
+    symbol: '$',
+    name: 'Dollars',
+    code: 'USD',
+  },
+  euros: {
+    symbol: '€',
+    name: 'Euros',
+    code: 'EUR',
+  },
+};

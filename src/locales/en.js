@@ -9,6 +9,12 @@ export default {
     profile: 'Profile ({username})',
     logout: 'Logout',
     login: 'Login',    
+    wiki: 'Wiki',
+    resources: 'Resources',
+    market: 'Tarkov Market',
+    'tarkov-dev': 'Tarkov Dev',
+    loot: 'Loot Ranking',
+    tracker: 'Tarkov Trakcer',
   },
   userTokens: {
     noApiKeysFound: 'No API keys found',
@@ -98,9 +104,11 @@ export default {
     passwordChange: 'Password Change',
     raidInProgress: '{n, plural, one {Raid} other {Raids}} in progress',
     userProfile: 'User Profile',
+    playerStatus: 'Player Status',
+    publicProfile: 'Public Profile',
   },
   link:{
-    forgottenPassword: 'Forgotten Password',
+    forgottenPassword: 'Forgotten Password?',
   },
   message: {
     deleteNamespaceModal: 'Are you sure you want to delete this namespace?',
@@ -109,7 +117,7 @@ export default {
     enterNewPassword: 'Please enter your new password and confirm it',
     enterUsername: 'Please enter your username',
     forgottenPassword: 'Enter your username we will send you a link to reset your password.',
-    generatorOn: '<span>{nickname}</span> has generator on, <span class="fw-bold">{fuelLeft}%</span> fuel remaining.',
+    generatorOn: 'Generator on, {fuelLeft}% fuel remaining.',
     invalidCode: 'Invalid code',
     passwordMismatch: 'Passwords do not match',
     proceedConfirmation: 'Are you sure you want to proceed?',
@@ -117,6 +125,7 @@ export default {
     raidUsers: '{users} as {character} on {location}',
     recoveryCodeValidated: 'Your code has been validated. You can now reset your password.',
     recoveryMailSent: 'An email has been sent to your email address with a code to insert in the field below.',
+    waitingPlayersToJoin: 'Waiting for players to join...',
   },
   placeholder: {
     enterRecoveryCode: 'Enter the code sent to your email',
@@ -164,5 +173,9 @@ export default {
     userDeletionSuccessful: 'User deleted successfully',
     userUpdateFailed: 'Failed to update user',
     userUpdateSuccessful: 'User updated successfully',
-  }
+  },
+  error: {
+    unauthorized: 'Unauthorized Access',
+    unauthorizedDescription: 'You do not have permission to access this page.',
+  },
 }

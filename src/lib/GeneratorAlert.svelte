@@ -5,8 +5,8 @@
   let showAlert = false;
   let alerts = [];
   
-  $: showAlert = hideoutInfo.some((info) => info.isGeneratorOn); 
-  $: alerts = hideoutInfo.filter((info) => info.isGeneratorOn).map((info) => $t('message.generatorOn', { values: { nickname: info.nickname, fuelLeft: Math.round(info.generatorFuelLeft) }}));
+  $: showAlert = !!hideoutInfo && hideoutInfo.some((info) => info.isGeneratorOn); 
+  $: alerts = !!hideoutInfo ? hideoutInfo.filter((info) => info.isGeneratorOn).map((info) => $t('message.generatorOn', { values: { nickname: info.nickname, fuelLeft: Math.round(info.generatorFuelLeft) }})) : [];
   // `<span class="fw-bold">${info.nickname}</span> has generator on, <span class="fw-bold">${Math.round(info.generatorFuelLeft)}%</span> fuel remaining.`);
 </script>
 

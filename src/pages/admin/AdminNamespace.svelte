@@ -1,13 +1,14 @@
 <script>
-  import { MultiSelect } from "svelte-multiselect";
-  import { AdminService } from "../../services/AdminService";
   import { onMount } from "svelte";
+  import { MultiSelect } from "svelte-multiselect";
   import { navigate } from "svelte-routing";
-  import ApiKeys from "../../lib/ApiKeys.svelte";
-  import { createToast } from "../../stores/toasts";
+
+  import ApiKeys from "@lib/ApiKeys.svelte";
+  import SecurePage from "@lib/SecurePage.svelte";
+  import Collapse from "@lib/Collpase.svelte";
+  import { AdminService } from "@services/AdminService";
   import { t } from '@services/i18n';
-  import SecurePage from "../../lib/SecurePage.svelte";
-  import Collapse from "../../lib/Collpase.svelte";
+  import { createToast } from "@stores/toasts";
 
   export let id = "";
 

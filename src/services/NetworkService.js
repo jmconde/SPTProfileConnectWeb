@@ -1,8 +1,14 @@
 import { get } from 'svelte/store';
 import { jwtStore } from '../stores/jwtStore';
+import { HttpResponseError } from '@utils/HttpResponseError.js';
 
 export class NetworkService {
   API_URL = import.meta.env.VITE_API_URL;
+  API_KEY = import.meta.env.VITE_API_KEY;
+  static AUTH_JWT = 'jwt';
+  static AUTH_BASIC = 'basic';
+  static AUTH_APIKEY = 'apikey';
+  static AUTH_NONE = 'none';
   
   async post({ uri, params, body, auth }) {
     return await this.request({ uri, params, method: 'POST', body, auth });
@@ -27,7 +33,7 @@ export class NetworkService {
     const res = await fetch(`${this.API_URL}${uri}${this.getURLParams(params)}`, this.getFetchOptions({ method, body, auth }));
 
     if (!res.ok) {
-      throw new Error('Network response was not ok');
+      throw new HttpResponseError(res.statusText, res);
     }
     const text = await res.text();
 
@@ -59,13 +65,23 @@ export class NetworkService {
     return options;
   }
 
-  getHeaders({ auth = true }) {
+  getHeaders({ auth = NetworkService.AUTH_JWT }) {
     const headers = {
       'Content-Type': 'application/json'
     };
-    if (auth) {
-      headers.Authorization = get(jwtStore);
-    }
+    switch (auth) {
+      case NetworkService.AUTH_APIKEY:
+        headers['X-Api-Key'] = this.API_KEY;
+      case NetworkService.AUTH_BASIC:
+      //   headers.Authorization = `Basic ${btoa(`${import.meta.env.VITE_BASIC_AUTH_USERNAME}:${import.meta.env.VITE_BASIC_AUTH_PASSWORD}`)}`;
+      //   break;
+      case NetworkService.AUTH_NONE:
+        break;
+      case NetworkService.AUTH_JWT:
+      default:
+        headers.Authorization = get(jwtStore);
+        break;
+    }      
     return headers;
   }
 }

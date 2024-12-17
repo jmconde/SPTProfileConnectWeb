@@ -59,7 +59,6 @@
 
 <style>
   /* Add your component styles here */
-
   :global(body[data-bs-theme='dark'] div.multiselect > ul.options) {
     background-color: var(--bs-body-bg)
   }
@@ -97,7 +96,7 @@
   </div>
   <div class="row">
     <div class="col-md-10">
-      <MultiSelect
+      <MultiSelect --sms-border="var(--bs-border-width) solid var(--bs-border-color)"
         placeholder={$t('placeholder.selectUsers')}
         bind:selected={selectedUsers} options={users} 
         on:change={handleSelectUsers}

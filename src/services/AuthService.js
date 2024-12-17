@@ -28,21 +28,15 @@ export class AuthService {
   }
 
   async login(username, password) {
-    try {
-      const res = await fetch(`${apiUrl}/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+    const res = await this.networkService.post({
+      uri: '/api/login',
+      body: JSON.stringify({ username, password }),
+      auth: NetworkService.AUTH_NONE,
+    });
 
-      const { token } = await res.json();
-      this.persist(token);
-      return token;
-    } catch (error) {
-      console.error(error);
-    }
+    const { token } = await res;
+    this.persist(token);
+    return token;
   }
 
   fromStorage() {
@@ -79,31 +73,19 @@ export class AuthService {
   }
 
   async changePasswordWithCode(username, code, newPassword) {
-    const res = await fetch(`${apiUrl}/api/user/password/recovery/change`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const res = await this.networkService.post({
+      uri: '/api/user/password/recovery/change',
       body: JSON.stringify({ username, code, newPassword }),
     });
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const { token } = await res.json();
+    const { token } = await res;
     this.persist(token);
   }
 
   async requestPasswordRecovery(username) {
-    const res = await fetch(`${apiUrl}/api/user/password/recovery`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    await this.networkService.post({
+      uri: '/api/user/password/recovery',
       body: JSON.stringify({ username }),
     });
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
   }
 
   parseJwt(token) {
@@ -116,15 +98,9 @@ export class AuthService {
   }
 
   async validate2FACode(code, username) {
-    const res = await fetch(`${apiUrl}/api/auth/code`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    await this.networkService.post({
+      uri: '/api/auth/code',
       body: JSON.stringify({ code, username }),
     });
-    if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
   }
 }

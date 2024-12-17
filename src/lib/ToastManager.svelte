@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from 'svelte';
   import { toasts } from '../stores/toasts';
   import Toast from './Toast.svelte';
 

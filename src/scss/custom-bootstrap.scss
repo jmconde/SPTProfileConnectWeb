@@ -1,0 +1,17 @@
+// Import Bootstrap's functions (optional if you're only changing variables)
+@import "~bootstrap/scss/functions";
+
+// Your custom variables
+$custom-primary: #33b5e5;
+$custom-body-bg: #f8f9fa;
+
+// Import Bootstrap variables to override with custom ones
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// Override Bootstrap variables
+$primary: $custom-primary;
+$body-bg: $custom-body-bg;
+
+// Rest of Bootstrap
+@import "~bootstrap/scss/bootstrap";

@@ -115,13 +115,7 @@ body {
 .bg-level-20 {
   background-color: var(--gray);
 }
-
-.count-list {
-  
-}
-.count-line {
-  
-}
+ 
 .count-user {
   font-size: 80%;
   margin-left: 10px;
@@ -187,6 +181,11 @@ body {
   color: #fff;
 }
 
+.bg-trader-ref {
+  background-color: #73C1C6; /* Dark Olive Green */
+  color: #121212;
+}
+
 .logo-side-small-wrapper {
   width: 32px;
   height: 32px;
@@ -240,9 +239,63 @@ mark.highlighted {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  margin-left: 4px;
+  margin-left: 0;
   background-color: red;
 }
+
 .conn-status.connected {
   background-color: green;
+}
+
+.conn-status.idle {
+  background-color: #dec402;
+}
+
+.conn-status.dead {
+  background-color: #000;
+}
+
+
+.button-link {
+  color: white;
+  opacity: 0.5;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  margin-left: 16px;
+  line-height: 0;
+}
+.button-link:hover {
+  text-decoration: underline;
+}
+
+.multi-line-truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.left-fixed-column {
+  max-width: 300px;
+}
+@media (max-width: 768px) {
+  .left-fixed-column {
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+  }
+}
+
+.navbar .dropdown-menu[data-bs-popper] {
+  left: unset !important;
+}
+
+.task-item {
+  font-size: 0.8rem !important;
 }
