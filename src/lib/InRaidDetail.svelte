@@ -2,6 +2,7 @@
   import { Crosshair, Plus } from "svelte-bootstrap-icons";
   import InRaidUserStats from "./InRaidUserStats.svelte";
   import { t } from "@services/i18n";
+  import User from "./User.svelte";
 
   export let raid;
 
@@ -28,7 +29,13 @@
 <p>
   <Crosshair />
   {#if raid.team}<span class="fw-medium ms-1">{$t('message.raidTeam', { values: { team: raid.team } })}</span>{/if}
-  {$t('message.raidUsers', { values: { users, character, location }})}
+
+  {#if raid.dedicated && users.length === 0 }
+   {$t('message.waitingPlayersToJoin')}
+  {:else}
+    {$t('message.raidUsers', { values: { users, character, location }})}
+  
+  {/if}
   
 
   <button class="icon-btn float-end" on:click={() => toggleRaidInfo()}

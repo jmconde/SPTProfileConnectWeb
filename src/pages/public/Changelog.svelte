@@ -1,19 +1,23 @@
 <script>
   import { onMount } from "svelte";
-  import Loading from "../lib/Loading.svelte";
-  let html; 
+
+  import Loading from "@lib/Loading.svelte";
+
+  let html;
 
   onMount(() => {
-    fetch('/partials/CHANGELOG.html')
-      .then(response => response.text())
-      .then(data => {
+    fetch("/partials/CHANGELOG.html")
+      .then((response) => response.text())
+      .then((data) => {
         html = data;
       });
   });
 </script>
 
 <div class="container mt-5">
-  <button class="btn btn-light" on:click={() => window.history.back()}>Back</button>
+  <button class="btn btn-light" on:click={() => window.history.back()}
+    >Back</button
+  >
   {#if html}
     <div class="changelog m-3">
       {@html html}
@@ -22,6 +26,7 @@
     <Loading text="Loading Changelog" />
   {/if}
 </div>
+
 <style>
   :global(.changelog) {
     max-width: 800px;
@@ -32,22 +37,22 @@
     border-bottom: 1px solid #eaecef;
     padding-bottom: 4px;
   }
-  :global([data-bs-theme=dark] .changelog h1) {
+  :global([data-bs-theme="dark"] .changelog h1) {
     border-bottom: 1px solid #333333;
   }
 
-  :global([data-bs-theme=dark] .changelog h2) {
+  :global([data-bs-theme="dark"] .changelog h2) {
     color: var(--bs-light);
   }
 
   :global(.changelog h2) {
-    font-size: 1.0rem;
+    font-size: 1rem;
     padding-bottom: 4px;
     margin-bottom: 4px;
     color: var(--bs-dark);
   }
 
-  :global([data-bs-theme=dark] .changelog h2 a) {
+  :global([data-bs-theme="dark"] .changelog h2 a) {
     color: var(--bs-light);
   }
 

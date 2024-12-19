@@ -1,8 +1,8 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import QueryFilter from "./QueryFilter.svelte";
   import QuestCountItem from "./QuestCountItem.svelte";
-  import { loadingStore } from "../stores/loadingStore";
+  import { loadingStore, unauthorizedStore } from "../stores/loadingStore";
   import Loading from "./Loading.svelte";
   import { t } from '@services/i18n';
 
@@ -31,15 +31,17 @@
   function onUserClick(event) {
     dispatch("user-click", event.detail);
   }
+
+  function onRetry() {
+    dispatch("retry");
+  }
 </script>
 
 <style>
   :root {
     --sms-min-height: 38px;
-    --sms-border: 1pt solid var(--bs-border-color);
   }
 </style>
-
 
 <div class="card mb-2">
   <div class="card-body">
@@ -48,10 +50,21 @@
     {#if $loadingStore}
       <Loading hasText={true} />
     {/if}
-    <div class="count-list">
-      {#each filteredItems as count}
-        {#if count.count > cap}
-          <QuestCountItem on:user-click={onUserClick} {count} {query} />
+    {#if $unauthorizedStore}
+    <div class="container text-center mt-5">
+      <div class="row">
+          <div class="col">
+              <h1 class="display-4">{$t('error.unauthorized')}</h1>
+              <p class="lead">{$t('error.unauthorizedDescription')}</p>
+              <button id="retryButton" class="btn btn-secondary btn-lg" on:click={onRetry}>Retry</button>
+          </div>
+      </div>
+  </div>
+    {/if}
+    <div class="row mt-4">
+      {#each filteredItems as quest (quest.id)}
+        {#if quest.count > cap}
+          <QuestCountItem on:user-click={onUserClick} {quest} {query} />
         {/if}
       {/each}
     </div>

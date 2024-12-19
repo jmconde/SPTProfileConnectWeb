@@ -6,6 +6,7 @@
   export let message;
   export let header;
   export let type = 'info';
+  export let autohide = true;
 
   const dispatchEvent = createEventDispatcher();  
   let timeout;
@@ -23,9 +24,11 @@
   }
 
   onMount(() => {
-    timeout = setTimeout(() => {
-      removeToast();
-    }, 5000);
+    if (autohide) {
+      timeout = setTimeout(() => {
+        removeToast();
+      }, 5000);
+    }
   });
 
   onDestroy(() => {

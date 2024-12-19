@@ -1,10 +1,11 @@
 <script>
-  import { navigate } from 'svelte-routing';
-  import SecurePage from '../../lib/SecurePage.svelte';
-  import { AdminService } from '../../services/AdminService';
   import { onMount } from 'svelte';
-  import { createToast } from '../../stores/toasts';
+  import { navigate } from 'svelte-routing';
+
+  import SecurePage from '@lib/SecurePage.svelte';
+  import { AdminService } from '@services/AdminService';
   import { t } from '@services/i18n';
+  import { createToast } from '@stores/toasts';
   
   export let id = '';
 

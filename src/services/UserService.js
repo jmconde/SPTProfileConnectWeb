@@ -33,7 +33,6 @@ export class UserService {
         body: { username, oldPassword, newPassword },
       });
     } catch (error) {
-      console.log('error :>> ', error);
       throw new Error('error-changing-password');
     }
   }

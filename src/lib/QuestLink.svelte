@@ -9,9 +9,11 @@
   .trader-link {
     color: inherit;
     text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s;
   }
   .trader-link:hover {
-    text-decoration: underline;
+    opacity: 1;
   }
 </style>
 

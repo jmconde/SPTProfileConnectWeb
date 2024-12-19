@@ -26,6 +26,10 @@
     "checkJs": true,
     "paths": {
       "@services/*": ["src/services/*"],
+      "@stores/*": ["src/stores/*"],
+      "@pages/*": ["src/pages/*"],
+      "@lib/*": ["src/lib/*"],
+      "@utils/*": ["src/utilities/*"],
     }
   },
   /**

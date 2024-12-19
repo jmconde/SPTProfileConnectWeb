@@ -1,7 +1,7 @@
 <script>
   // Add your script logic here
   import { navigate } from "svelte-routing";
-  import SecurePage from "../../lib/SecurePage.svelte";
+  import SecurePage from "@lib/SecurePage.svelte";
   import { t } from "@services/i18n";
 
   function goto(route) {

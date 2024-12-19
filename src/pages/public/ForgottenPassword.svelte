@@ -1,9 +1,8 @@
 <script>
   import { navigate } from "svelte-routing";
   import { AuthService } from "@services/AuthService";
-  import { alertModal } from "../utilities/modal";
-  import { t } from '@services/i18n';
-  
+  import { alertModal } from "@utils/modal.js";
+  import { t } from '@services/i18n';  
 
   let username = '';
   let code = '';
@@ -11,7 +10,6 @@
   let codeValidated = false;
   let newPassword = '';
   let confirmPassword = '';
-
 
   const auth = new AuthService();
   async function askForCode() {
