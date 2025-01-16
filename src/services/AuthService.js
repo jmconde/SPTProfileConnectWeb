@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { get } from 'svelte/store';
-import { jwtStore } from '../stores/jwtStore';
+import { jwtStore, refreshTokenStore } from '../stores/jwtStore';
 import { userStore } from '../stores/userStore';
 import { NetworkService } from './NetworkService';
 
@@ -34,22 +34,27 @@ export class AuthService {
       auth: NetworkService.AUTH_NONE,
     });
 
-    const { token } = await res;
+    const { token, refreshToken } = await res;
     this.persist(token);
+    this.persistRefreshToken(refreshToken);
+
     return token;
   }
 
   fromStorage() {
     const token = sessionStorage.getItem('token');
-    if (token) {
+    const xrt = localStorage.getItem('xrt');
+    if (token && xrt) {
       try {
         const parsed = this.parseJwt(token);
-        const isAfter = dayjs().isAfter(parsed.exp * 1000);
+        const parsedXrt = this.parseJwt(xrt);
+        const isAfter = dayjs().isAfter(parsedXrt.exp * 1000);
         if (isAfter) {
           this.removePersistence();
           return;
         }
         this.persist(token);
+        this.persistRefreshToken(xrt);
       } catch (error) {
         console.log('error :>> ', error);
         this.removePersistence();
@@ -60,16 +65,25 @@ export class AuthService {
   }
 
   persist(token) {
-    const loggedUser = this.parseJwt(token);
+    const { user: loggedUser} = this.parseJwt(token);
     jwtStore.set(token);
     userStore.set(loggedUser);
     sessionStorage.setItem('token', token);
   }
 
+  persistRefreshToken(token) {
+    refreshTokenStore.set(token);
+    localStorage.setItem('xrt', token);
+  }
+
+
   removePersistence() {
+    console.log('removePersistence');
     jwtStore.set('');
     userStore.set(null);
     sessionStorage.removeItem('token');
+    refreshTokenStore.set('');
+    localStorage.removeItem('xrt');
   }
 
   async changePasswordWithCode(username, code, newPassword) {

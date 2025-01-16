@@ -1,21 +1,31 @@
 import { jwtStore } from "../stores/jwtStore";
 import { get } from "svelte/store";
 import { AuthService } from "@services/AuthService";
-import { NetworkService } from "./NetworkService.js";
-import { HttpResponseError } from "@utils/HttpResponseError.js";
+import { NetworkService } from "@services/NetworkService.js";
+import { HttpResponseError } from "@utils/errors/HttpResponseError.js";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_API_KEY;
+const SPECIAL_TEAM = import.meta.env.VITE_SPECIAL_TEAM;
 
 export class ProfilesService {
   apiKey = get(jwtStore);
   authService = new AuthService();
-  networkService = new NetworkService();
+  networkService = new NetworkService(this.authService);
 
   constructor() {
     jwtStore.subscribe((apiKey) => {
       this.apiKey = apiKey;
     });
+  }
+
+  async fetchOnlineData() {
+    const data = await this.networkService.get({
+      uri: "/api/online",
+      auth: NetworkService.AUTH_APIKEY,
+    });
+
+    return data;
   }
 
   async fetchProfiles() {
@@ -25,7 +35,7 @@ export class ProfilesService {
     });
 
     return profiles.sort((a, b) =>
-      a.data.nickName.localeCompare(b.data.nickName)
+      a.nickName.localeCompare(b.nickName)
     );
   }
 
@@ -42,11 +52,14 @@ export class ProfilesService {
       auth: NetworkService.AUTH_APIKEY,
     });
 
-    if (response.length > 0) {
+    if (SPECIAL_TEAM && response.length > 0) {
+      const st = SPECIAL_TEAM.split('|');
+      const stTeam = st[0];
+      const stUsers = st[1].split(',').map((user) => user.toLowerCase());
       for (const raid of response) {
         const { users } = raid;
-        if (users.some((user) => user.nickName.toLowerCase() === "pipecalv")) {
-          raid.team = "Fides";
+        if (users.some((user) => stUsers.includes(user.nickName.toLowerCase()) )) {
+          raid.team = stTeam;
         }
       }
     }
@@ -79,6 +92,17 @@ export class ProfilesService {
     try {
       return await this.networkService.get({
         uri: `/api/data/money/hourly?from=${from}&to=${to}`,
+        auth: NetworkService.AUTH_APIKEY,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getQuestItemsNeeded(id) {
+    try {
+      return await this.networkService.get({
+        uri: `/api/quest/needed/${id}`,
         auth: NetworkService.AUTH_APIKEY,
       });
     } catch (error) {

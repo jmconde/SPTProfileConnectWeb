@@ -30,7 +30,7 @@
       </div>
       <span class="badge text-bg-primary">{$t('common.quest', { values: { n: quests.length}})}</span>
     </div>
-    {#each quests as quest}
+    {#each quests as quest (quest.id)}
       <span
         title={quest.trader}
         class="badge bg-trader-{quest.trader.toLowerCase()}">{quest.name}

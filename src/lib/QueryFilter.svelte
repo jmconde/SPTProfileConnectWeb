@@ -48,6 +48,7 @@
 
   function handleClear() {
     query = [];
+    typedQuery = [];
     selectedUsers = [];
     selectedLocation = '';
     selectedTrader = '';

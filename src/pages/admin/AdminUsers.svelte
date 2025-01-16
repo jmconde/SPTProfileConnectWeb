@@ -61,6 +61,8 @@
           <th scope="col">{$t('common.username')}</th>
           <th scope="col">{$t('common.roles')}</th>
           <th scope="col">{$t('common.namespace')}</th>
+          <th scope="col">{$t('common.profileId')}</th>
+          <th scope="col">{$t('common.discord')}</th>
           <th scope="col">{$t('common.actions')}</th>
         </tr>
       </thead>
@@ -70,6 +72,8 @@
             <td><span>{user.username}</span></td>
             <td><span>{user.roles.join(", ")}</span></td>
             <td><span>{#if user.namespace && user.namespace.name}{user.namespace.name}{:else}-{/if}</span></td>
+            <td><span>{user.profileId || ''}</span></td>
+            <td><span>{user.discord || ''}</span></td>
             <td>
               <button
                 on:click={() => editUser(user._id)}

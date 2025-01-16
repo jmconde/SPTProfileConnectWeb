@@ -14,7 +14,7 @@ export default {
     market: 'Tarkov Market',
     'tarkov-dev': 'Tarkov Dev',
     loot: 'Loot Ranking',
-    tracker: 'Tarkov Trakcer',
+    tracker: 'Tarkov Tracker',
   },
   userTokens: {
     noApiKeysFound: 'No API keys found',
@@ -72,6 +72,7 @@ export default {
   },
   label: {
     characterId: 'Character ID',
+    discordNickname: 'Discord Nickname',
     email: 'Email address',
     firstName: 'First Name',
     lastName: 'Last Name',
@@ -126,6 +127,8 @@ export default {
     recoveryCodeValidated: 'Your code has been validated. You can now reset your password.',
     recoveryMailSent: 'An email has been sent to your email address with a code to insert in the field below.',
     waitingPlayersToJoin: 'Waiting for players to join...',
+    solarPanel: 'Solar Panel present',
+    bitcoinFarm: 'Bitcoin Farm present',
   },
   placeholder: {
     enterRecoveryCode: 'Enter the code sent to your email',

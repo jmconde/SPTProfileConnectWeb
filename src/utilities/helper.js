@@ -48,3 +48,17 @@ export const CURRENCIES_MAP = {
     code: 'EUR',
   },
 };
+
+export function startPolling(fn, millis = import.meta.env.VITE_POLLING_INTERVAL) {
+  return setInterval(async () => {
+    await fn();
+  }, millis);
+}
+
+export function stopPolling(pollInterval) {
+  clearInterval(pollInterval);
+}
+
+export async function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

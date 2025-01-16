@@ -20,7 +20,8 @@
 
   function logout() {
     auth.logout();
-    navigate('/');
+    navigate('/');         
+    window.location.reload();
   }
 
 </script>
@@ -41,7 +42,7 @@
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
   <div class="container-fluid">
         
-    <a class="navbar-brand" href="/">{$_('header.brand')} <span class="conn-status" class:connected={$websocketState.connected}></span></a>
+    <a class="navbar-brand" href="/" use:link>{$_('header.brand')} <span class="conn-status" class:connected={$websocketState.connected}></span></a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -52,7 +53,7 @@
         
         {#if !isAuthenticated}
         <li class="nav-item">
-          <a class="nav-link" use:link href="/data/charts">Charts</a>
+          <a class="nav-link" use:link href="/charts">Charts</a>
         </li>
         <li class="nav-item-dropdown">
           <!-- svelte-ignore a11y-invalid-attribute -->
@@ -78,14 +79,14 @@
         <li class="nav-item">
           <a class="nav-link" href="/profile" use:link>{$_('header.profile', { values: { username }})}</a>
         </li>
-        <li class="nav-item">
-          <button class="nav-link" on:click={logout}>{$_('header.logout')}</button>
-        </li>
+
         {/if}
         {#if isBetaMode}<!-- -->{/if}
       </ul>
       {#if !isAuthenticated}
         <button class="button-link" on:click={() => isLoginModalOpen = true}>{$_('header.login')}</button>
+      {:else}
+        <button class="nav-link" on:click={logout}>{$_('header.logout')}</button>
       {/if}
       <ThemeSwitcher />
       <a class="button-link version" href="/changelog" use:link>

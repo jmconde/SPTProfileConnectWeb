@@ -30,18 +30,16 @@
     return str.join('');
   }
 
-  $: content = `<ul class="list-group">
+  $: content = `<div class="tasks-list-group-wrapper"><ul class="list-group">
     ${tasks.map(task => `
       <li class="list-group-item d-flex justify-content-between align-items-center ${task.accomplished ? 'list-group-item-success' : ''}">
         <span class="task-item">${task.description}</span> ${getProgress(task)}
       </li>`).join("")} 
-    </ul>`;
-
-    console.log('user :>> ', user);
+    </ul></div>`;
 </script> 
 
 <style>
-  
+ 
 </style>
 
 <!-- svelte-ignore a11y-click-events-have-key-events list-group-item-success-->

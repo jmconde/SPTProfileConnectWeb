@@ -1,5 +1,7 @@
 <script>
   import IconGeneratorOn from 'svelte-bootstrap-icons/lib/LightningChargeFill.svelte';
+  import IconSolarPanelOn from 'svelte-bootstrap-icons/lib/SunFill.svelte';
+  import IconBitcoinFarm from 'svelte-bootstrap-icons/lib/CurrencyBitcoin.svelte';
   import { configStore } from "@stores/configStore.js";
   import { t } from '@services/i18n';
   
@@ -37,6 +39,9 @@
   <div>
     <div class="user">
       {item.user}
+      {#if item.hasBitcoinFarm}
+        <span class="icon-bitcoin-farm" title={ $t("message.bitcoinFarm")}><IconBitcoinFarm  width="12"  /></span>
+      {/if}
       {#if item.generatorInfo}
         <span class="icon-generator-on" title={ $t("message.generatorOn", {
           values: {
@@ -44,6 +49,10 @@
           },
         })}><IconGeneratorOn  width="10"  /></span>
       {/if}
+      {#if item.isSolarPanelOn}
+        <span class="icon-generator-on" title={ $t("message.solarPanel")}><IconSolarPanelOn  width="10"  /></span>
+      {/if}
+      
       <!-- <a href="/user/{item.userId}" use:link class="profile-link">{item.user}</a
       > -->
       {#if item.status}
@@ -60,7 +69,12 @@
 <style lang="scss">
   .icon-generator-on {
     color: var(--bs-warning);
-    margin-left: 4px;
+    margin-left: 2px;
+  }
+
+  .icon-bitcoin-farm {
+    color: var(--bs-success);
+    margin-left: 2px;
   }
 
   .blink {

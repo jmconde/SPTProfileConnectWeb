@@ -3,50 +3,60 @@
   import QuestLink from "./QuestLink.svelte";
   import User from "./User.svelte";
   import { highlightMatch } from "./helpers";
-  
+  import ItemsNeededIcon from 'svelte-bootstrap-icons/lib/QuestionCircleFill.svelte';
   import "bootstrap/js/dist/popover.js";
 
   import * as bootstrap from "bootstrap";
+  import { ProfilesService } from "@services/ProfilesService.js";
+  import ItemsNeeded from "./ItemsNeeded.svelte";
 
   export let quest;
   export let query;
 
+  const myDefaultAllowList = bootstrap.Tooltip.Default.allowList;
+  myDefaultAllowList.table = [];
+  myDefaultAllowList.thead = [];
+  myDefaultAllowList.tbody = [];
+  myDefaultAllowList.tr = [];
+  myDefaultAllowList.td = [];
+  myDefaultAllowList.th = [];
+
   const dispatch = createEventDispatcher();
+  const profileService = new ProfilesService();
 
   const questImages = import.meta.glob(
     ["./assets/images/quests/*.jpg", "./assets/images/quests/*.png"],
     { eager: true, query: "?url", import: "default" }
   );
-  
-  let popoverInstance;
+  let popoverItemsNeededInstance, popoverItemsNeededTrigger;
+  let popoverDescriptionInstance, popoverDescriptionTrigger;
   let defaultQuestImage = "./assets/images/quests/default.jpg";
+  let sortedUSers = [];
+  let itemsNeeded = {};
+  let itemsNeededTpl;
+  let itemsNeededContent = 'content';
 
-  onMount(() => {
-    // Initialize popover
-    const popoverTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="popover"]'
-    );
-    popoverInstance = [...popoverTriggerList].map(
-      (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl,  { html: true})
-    );
+  onMount(async () => {
+    popoverDescriptionInstance =  new bootstrap.Popover(popoverDescriptionTrigger,  { html: true });
+    itemsNeeded = await profileService.getQuestItemsNeeded(quest.id);
+    
+    if (itemsNeeded.valid) {
+      popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { allowList: myDefaultAllowList, html: true, content: itemsNeededTpl.innerHTML });
+    }
   });
 
+  
   $: sortedUSers = quest.userTasks.sort((a, b) => a.user.localeCompare(b.user));
 
-  function onUserClick(event) {
-    dispatch("user-click", event.detail);
-  }
-
+  
   function getImageUrl(item) {
-    // /files/quest/icon/5979e80986f77437584fb8b2.jpg
-    const imageName = item.image.split('.')[0];
+    const imageName = item.image.split('.')[0] ;
     const imagePng = questImages[`./assets/images/quests/${imageName}.png`];
     const imageJpg = questImages[`./assets/images/quests/${imageName}.jpg`];
     const imageDefault = questImages[defaultQuestImage];
     return imagePng || imageJpg || imageDefault;
   }
 </script>
-
 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-4">
   <div class="card card-quest h-100">
     <div style="position: relative;">
@@ -64,7 +74,8 @@
       <p class="card-text multi-line-truncate text-secondary">
         {quest.description}
       </p>
-      <button
+      
+      <button bind:this={popoverDescriptionTrigger}
         type="button"
         class="btn btn-secondary btn-sm"
         data-bs-toggle="popover"
@@ -72,19 +83,38 @@
         data-bs-placement="top"
         data-bs-content={quest.description}
       >
-        Read full description
+        Read description
       </button>
+      <button bind:this={popoverItemsNeededTrigger}
+      type="button"
+      style={itemsNeeded.valid ? '' : 'display: none;'}
+      class="btn btn-secondary btn-sm"
+      data-bs-toggle="popover"
+      data-bs-trigger="focus"
+      data-bs-placement="bottom"
+      on:click={() => { popoverItemsNeededInstance.setContent({ '.popover-body': itemsNeededTpl.innerHTML});  }}
+    ><ItemsNeededIcon class="item-icon" /></button>
     </div>
     <div class="card-body">
       <h6 class="card-subtitle mb-2 text-body-secondary">Who has it?</h6>
-      {#each sortedUSers as user}
+      {#each sortedUSers as user (user.user)}
         <User {user} {query} />
       {/each}
     </div>
   </div>
+  <div class="needed-items card" bind:this={itemsNeededTpl}>
+    <ItemsNeeded items={itemsNeeded.items || []} />
+  </div>
+
 </div>
 
 <style>
+  .item-icon {
+    pointer-events: none;
+  }
+  .needed-items{
+    display: none;
+  }
   .floating-text {
     display: flex;
     justify-content: center;

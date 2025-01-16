@@ -119,7 +119,12 @@
           
           <div class="mb-3">
             <label for="character" class="form-label">{$t('label.characterId')}</label>
-            <input bind:value={user.character} type="text" class="form-control" id="character" name="character">
+            <input bind:value={user.profileId} type="text" class="form-control" id="character" name="character">
+          </div>
+
+          <div class="mb-3">
+            <label for="character" class="form-label">{$t('label.discordNickname')}</label>
+            <input bind:value={user.discord} type="text" class="form-control" id="discord" name="discord">
           </div>
         </div>
       </div>

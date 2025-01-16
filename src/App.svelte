@@ -23,10 +23,13 @@
   import { LoggingService } from "@services/LoggingService";  
   import { setupI18n } from '@services/i18n.js';
   import { WebSocketService } from "@services/WebSocketService.js";
+  import MainLayout from "@pages/layouts/MainLayout.svelte";
+  import SnowFlake from "@lib/SnowFlake.svelte";
     
   setupI18n({ withLocale: 'en' });
 
   new WebSocketService(import.meta.env.VITE_WS_URL);
+  const hasSnowEffect = import.meta.env.VITE_SNOWFLAKES === "true";
 
   export let url = "";
 
@@ -51,10 +54,10 @@
   <Route path="/admin/namespace"><AdminNamespace /></Route>
   <Route path="/admin"><Admin /></Route>
   <Route path="/user/:id" let:params><PublicUserProfile id={params.id} /></Route>
-  <Route path="/data/charts"><Charts /></Route>
-  <Route path="/"><Home /></Route>
+  <Route path="/*" component={MainLayout}></Route>
   <Route><NotFound /></Route>
 </Router>
 
 <ConfirmationModal />
 <ToastManager />
+<SnowFlake active={hasSnowEffect} />

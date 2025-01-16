@@ -26,7 +26,8 @@
       await auth.login(username, password);
       closeModal();
       createToast('Login successful', 'success');
-      navigate('/');
+      navigate('/');      
+      window.location.reload();
     } catch (error) {
       console.error(error);
       createToast('Error logging in', 'danger');
