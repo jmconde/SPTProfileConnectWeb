@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import QueryFilter from "./QueryFilter.svelte";
   import QuestCountItem from "./QuestCountItem.svelte";
   import { loadingStore, unauthorizedStore, setLoading, setUnauthorized } from "../stores/loadingStore";
@@ -10,8 +10,12 @@
   import ItemsNeeded from "./ItemsNeeded.svelte";
 
   import { PollingService } from "@services/PollingService.js";
+  import { AuthService } from "@services/AuthService.js";
+  import { navigate } from "svelte-routing";
+  import { SessionExpiredError } from "@utils/errors/SessionExpiredError.js";
+  import { NavigationRoutes } from "@utils/constants.js";
 
-  
+  const authService = new AuthService();
   const dispatch = createEventDispatcher();
   const profilesService = new ProfilesService();
   const PAGE_NAME = 'questCount';
@@ -27,11 +31,17 @@
   let dynamicComponent = null;
   let dynamicComponentProps = {};
   let dynamicComponentTitle = '';
-  let pollingActive = true;
 
   onMount(async () => {
     setLoading(PAGE_NAME, true);
-    startPolling();    
+    if(authService.isAuthenticated()) {
+      startPolling();
+    }
+    // startPolling();    
+  });
+
+  onDestroy(() => {
+    stopPolling();
   });
 
   $: {
@@ -63,6 +73,9 @@
       items =  questsCount;
     } catch (error) {
       console.error(error);
+      if (error instanceof SessionExpiredError) {
+        logout();
+      }
       if (error.response && error.response.status === 401) {
         setUnauthorized(PAGE_NAME, true);
       }
@@ -70,6 +83,12 @@
     } finally {
       setLoading(PAGE_NAME, false);
     }
+  }
+
+  function logout() {
+    authService.logout();
+    navigate(NavigationRoutes.LANDING);         
+    // window.location.reload();
   }
 
   function handleSearch(event) {
@@ -91,7 +110,9 @@
   }
 
   function stopPolling() {
-    polling.stop();
+    if (polling){
+      polling.stop();
+    }
   }
 
   function openItemsNeededModal(itemsNeeded) {

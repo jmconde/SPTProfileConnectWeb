@@ -72,7 +72,7 @@ export class NetworkService {
         method: 'POST',
         headers: this.getHeaders({ auth: NetworkService.AUTH_NONE }),
         body: JSON.stringify({ refreshToken: refreshToken }),
-      })
+      });
       if (!fetchResponse.ok) {
         throw new SessionExpiredError()
       }

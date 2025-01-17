@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   fromStorage() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const xrt = localStorage.getItem('xrt');
     if (token && xrt) {
       try {
@@ -51,16 +51,19 @@ export class AuthService {
         const isAfter = dayjs().isAfter(parsedXrt.exp * 1000);
         if (isAfter) {
           this.removePersistence();
-          return;
+          return false;
         }
         this.persist(token);
         this.persistRefreshToken(xrt);
+        return true;
       } catch (error) {
         console.log('error :>> ', error);
         this.removePersistence();
+        return false;
       }
     } else {
       this.removePersistence();
+      return false;
     }
   }
 
@@ -68,7 +71,7 @@ export class AuthService {
     const { user: loggedUser} = this.parseJwt(token);
     jwtStore.set(token);
     userStore.set(loggedUser);
-    sessionStorage.setItem('token', token);
+    localStorage.setItem('token', token);
   }
 
   persistRefreshToken(token) {
@@ -81,7 +84,7 @@ export class AuthService {
     console.log('removePersistence');
     jwtStore.set('');
     userStore.set(null);
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('token');
     refreshTokenStore.set('');
     localStorage.removeItem('xrt');
   }
@@ -108,7 +111,8 @@ export class AuthService {
     }
     const base64Url = token.split('.')[1] ?? '';
     const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
+    const parsed = JSON.parse(window.atob(base64));
+    return parsed;
   }
 
   async validate2FACode(code, username) {

@@ -7,6 +7,7 @@
   import { t } from "@services/i18n";
   import { createToast } from "@stores/toasts";
   import { confirmModal } from "@utils/modal";
+  import { NavigationRoutes } from "@utils/constants.js";
 
   const adminService = new AdminService();
 
@@ -17,7 +18,7 @@
   }
 
   function editUser(id) {
-    navigate(`/admin/user/${id}`);
+    navigate(`${NavigationRoutes.SECURE_DASHBOARD_ADMIN_USER}/${id}`);
   }
 
   async function deleteUser(id) {
@@ -51,7 +52,7 @@
       <button
         type="button"
         class="btn btn-light"
-        on:click={() => navigate("/admin")}>{$t('button.back')}</button
+        on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN)}>{$t('button.back')}</button
       >
     </h1>
 
@@ -90,7 +91,7 @@
     <div class="mt-5">
       <button
         class="btn btn-primary me-2"
-        on:click={() => navigate("/admin/user")}>{$t('button.createUser')}</button>
+        on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_USER)}>{$t('button.createUser')}</button>
     </div>
   </div>
 </SecurePage>

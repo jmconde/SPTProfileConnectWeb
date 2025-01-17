@@ -7,6 +7,7 @@
   import { t } from '@services/i18n';
   import { createToast } from "@stores/toasts";
   import { confirmModal } from "@utils/modal";
+  import { NavigationRoutes } from "@utils/constants.js";
 
   const adminService = new AdminService();
 
@@ -21,7 +22,7 @@
   }
   
   function editNS (namespace) {
-    navigate(`/admin/namespace/${namespace._id}`);
+    navigate(`${NavigationRoutes.SECURE_DASHBOARD_ADMIN_NAMESPACE}/${namespace._id}`);
   }
 
   async function deleteNS(namespace) {
@@ -55,7 +56,7 @@
       <button
         type="button"
         class="btn btn-light"
-        on:click={() => navigate("/admin")}>{$t('button.back')}</button
+        on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN)}>{$t('button.back')}</button
       >
     </h1>
     <table class="table mt-4">
@@ -89,7 +90,7 @@
     {/each}
     </tbody>
     <div class="button-group mt-5">
-      <button class="btn btn-primary me-2" on:click={() => navigate("/admin/namespace")}
+      <button class="btn btn-primary me-2" on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_NAMESPACE)}
         >{$t('button.createNamespace')}</button
       >
     </div>

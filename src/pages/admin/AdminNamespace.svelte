@@ -9,6 +9,7 @@
   import { AdminService } from "@services/AdminService";
   import { t } from '@services/i18n';
   import { createToast } from "@stores/toasts";
+  import { NavigationRoutes } from "@utils/constants.js";
 
   export let id = "";
 
@@ -48,7 +49,7 @@
   async function createNamespace() {
     try {
       await adminService.createNamespace(namespace);
-      navigate("/admin/namespaces");
+      navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_NAMESPACES);
       createToast($t('toast.namespaceCreationSuccessful'), "success");
     } catch (error) {
       console.error(error);
@@ -63,7 +64,7 @@
 
       await adminService.updateNamespace(namespace);
       createToast($t('toast.namespaceUpdateSuccessful'), "success");
-      navigate('/admin/namespaces');
+      navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_NAMESPACES);
     } catch (error) {
       console.error(error);
       createToast($t('toast.namespaceUpdateFailed'), 'danger');
@@ -92,7 +93,7 @@
       <button
         type="button"
         class="btn btn-light"
-        on:click={() => navigate("/admin/namespaces")}>{$t('button.back')}</button
+        on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_NAMESPACES)}>{$t('button.back')}</button
       >
     </h1>
     <Collapse title={$t('common.namespace')}>

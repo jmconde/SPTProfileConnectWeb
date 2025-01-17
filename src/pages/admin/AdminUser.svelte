@@ -6,6 +6,7 @@
   import { AdminService } from '@services/AdminService';
   import { t } from '@services/i18n';
   import { createToast } from '@stores/toasts';
+  import { NavigationRoutes } from '@utils/constants.js';
   
   export let id = '';
 
@@ -31,7 +32,7 @@
   async function createUser() {
     try {
       await adminService.createUser(user);
-      navigate('/admin/users');
+      navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_USERS);
       createToast($t('toast.userCreationSuccessful'), 'success');
     } catch (error) {
       console.error(error);
@@ -42,7 +43,7 @@
   async function updateUser() {
     try {
       await adminService.updateUser(user);
-      navigate('/admin/users');
+      navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_USERS);
       createToast($t('toast.userUpdateSuccessful'), 'success');
     } catch (error) {
       console.error(error);
@@ -72,7 +73,7 @@
       <button
         type="button"
         class="btn btn-light"
-        on:click={() => navigate("/admin/users")}>{$t('button.back')}</button
+        on:click={() => navigate(NavigationRoutes.SECURE_DASHBOARD_ADMIN_USERS)}>{$t('button.back')}</button
       >
     </h1>
     <form action="/api/user" method="post" on:submit={onSubmit}>

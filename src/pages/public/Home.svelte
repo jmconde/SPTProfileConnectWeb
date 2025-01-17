@@ -2,9 +2,7 @@
   import ProfileModal from "@lib/ProfileModal.svelte";
   import QuestsCount from "@lib/QuestsCount.svelte";
   import ClientsOnline from "@lib/ClientsOnline.svelte";
-
-  import "bootstrap/dist/css/bootstrap.min.css";
-
+  
   let modalProfile = {};
   let showModalProfile = false;
 

@@ -32,7 +32,7 @@
   <div class="container mb-4">
     <div class="container-animation">
       <LottiePlayer
-        src='lottie-loading.json'
+        src='/lottie-loading.json'
         autoplay={true}
         loop={true}
         controls={false}
