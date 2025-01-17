@@ -49,7 +49,7 @@
       </div>
       <form
         class="p-4 border"
-        on:submit|preventDefault|stopPropagation|once={() => {}}
+        on:submit|preventDefault|stopPropagation={doLogin}
       >
         <div class="container">
           <div class="mb-3">
@@ -79,7 +79,6 @@
           <button
             type="submit"
             class="btn btn-primary"
-            on:click|preventDefault|stopPropagation|once={doLogin}
             >{$t("button.login")}</button
           >
           
@@ -110,10 +109,10 @@
   }
   .image-container {
     caret-color: transparent; 
-  position: relative;
-  display: inline-block; /* or block, depending on your layout */
-  overflow: hidden; /* Optional, to clip any overflow from the pseudo-element */
-}
+    position: relative;
+    display: inline-block; /* or block, depending on your layout */
+    overflow: hidden; /* Optional, to clip any overflow from the pseudo-element */
+  }
 /* 
 .image-container img {
   display: block; 
