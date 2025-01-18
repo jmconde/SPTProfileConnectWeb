@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
   import QuestLink from "./QuestLink.svelte";
   import User from "./User.svelte";
   import { highlightMatch } from "./helpers";
@@ -21,7 +21,6 @@
   myDefaultAllowList.td = [];
   myDefaultAllowList.th = [];
 
-  const dispatch = createEventDispatcher();
   const profileService = new ProfilesService();
 
   const questImages = import.meta.glob(
@@ -34,14 +33,17 @@
   let sortedUSers = [];
   let itemsNeeded = {};
   let itemsNeededTpl;
-  let itemsNeededContent = 'content';
 
   onMount(async () => {
     popoverDescriptionInstance =  new bootstrap.Popover(popoverDescriptionTrigger,  { html: true });
     itemsNeeded = await profileService.getQuestItemsNeeded(quest.id);
     
     if (itemsNeeded.valid) {
-      popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { allowList: myDefaultAllowList, html: true, content: itemsNeededTpl.innerHTML });
+      popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { 
+        allowList: myDefaultAllowList, 
+        html: true, 
+        content: itemsNeededTpl.innerHTML 
+      });
     }
   });
 

@@ -46,6 +46,13 @@ export class ProfilesService {
     });
   }
 
+  async fetchUserQuestTasks(userId, questId) {
+    return await this.networkService.get({
+      uri: `/api/quest/${questId}/user/${userId}/tasks`,
+      auth: NetworkService.AUTH_APIKEY,
+    });
+  }
+
   async fecthInRaid() {
     const response = await this.networkService.get({
       uri: "/api/inraid",

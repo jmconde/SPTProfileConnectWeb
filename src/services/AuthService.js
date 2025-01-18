@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   async logout() {
-    await this.networkService.post({
+    await this.networkService.get({
       uri: '/api/logout',
       auth: NetworkService.AUTH_JWT
     });

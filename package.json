@@ -1,7 +1,7 @@
 {
   "name": "spt-web",
   "private": true,
-  "version": "2.4.0-beta.4",
+  "version": "2.4.0-beta.5",
   "type": "module",
   "scripts": {
     "start": "http-server ./dist -c-1",
