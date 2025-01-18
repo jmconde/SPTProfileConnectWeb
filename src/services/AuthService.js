@@ -23,7 +23,11 @@ export class AuthService {
     return roles.some((role) => u.roles.includes(role));
   }
 
-  logout() {
+  async logout() {
+    await this.networkService.post({
+      uri: '/api/logout',
+      auth: NetworkService.AUTH_JWT
+    });
     this.removePersistence();
   }
 

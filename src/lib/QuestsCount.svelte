@@ -61,6 +61,11 @@
         if (!acc.includes(quest.location)) {
           acc.push(quest.location);
         }
+        quest.relatedLocations.forEach((location) => {
+          if (!acc.includes(location)) {
+            acc.push(location);
+          }
+        });
         return acc;
       }, []);
       traders = questsCount.reduce((acc, quest) => {
@@ -88,7 +93,6 @@
   function logout() {
     authService.logout();
     navigate(NavigationRoutes.LANDING);         
-    // window.location.reload();
   }
 
   function handleSearch(event) {
