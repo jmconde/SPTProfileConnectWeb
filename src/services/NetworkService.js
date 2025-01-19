@@ -16,23 +16,51 @@ export class NetworkService {
   }
   
   async post({ uri, params, body, auth }) {
-    return await this.request({ uri, params, method: 'POST', body, auth });
+    try {
+      return await this.request({ uri, params, method: 'POST', body, auth });
+    } catch (error) {
+     this._handleError(error);
+    }
   }
   
   async get({ uri, params, auth }) {
-    return await this.request({ uri, params, auth });
+    try {
+      return await this.request({ uri, params, auth });
+    } catch (error) {
+     this._handleError(error);
+    }
   }
 
   async patch({ uri, params, body, auth }) {
-    return await this.request({ uri, params, method: 'PATCH', body, auth });
+    try {
+      return await this.request({ uri, params, method: 'PATCH', body, auth });
+    } catch (error) {
+     this._handleError(error);
+    }      
   }
 
   async put({ uri, params, body, auth }) {
-    return await this.request({ uri, params, method: 'PUT', body, auth });
+    try {
+      return await this.request({ uri, params, method: 'PUT', body, auth });
+    } catch (error) {
+     this._handleError(error);
+    }
   }
 
   async delete({ uri, params, auth }) {
-    return await this.request({ uri, params, method: 'DELETE', auth });
+    try {
+      return await this.request({ uri, params, method: 'DELETE', auth });
+    } catch (error) {
+     this._handleError(error);
+    }
+  }
+
+  _handleError(error) {
+    // if (error instanceof SessionExpiredError) {
+    //   console.log('Session expired');
+    //   return;
+    // }
+    throw error;
   }
 
   async request({ uri = '', method = 'GET', body = null, auth = NetworkService.AUTH_JWT, params = null }) {

@@ -5,21 +5,12 @@
   import { createToast } from "@stores/toasts";
   import { NavigationRoutes } from "../../utilities/constants.js";
   import ThemeSwitcher from "@lib/ThemeSwitcher.svelte";
-  import { onMount } from "svelte";
 
   let username = "";
   let password = "";
   const auth = new AuthService();
 
   import brand from '../../lib/assets/images/brand/quests_brand_light.png';
-
-  onMount(() => {
-    const isLoggedIn = auth.fromStorage();
-
-    if (isLoggedIn) {
-      navigate(NavigationRoutes.SECURE_DASHBOARD_HOME, { replace: true });
-    }
-  });
 
   async function doLogin() {
     try {

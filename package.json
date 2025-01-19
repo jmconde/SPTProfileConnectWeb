@@ -6,13 +6,13 @@
   "scripts": {
     "start": "http-server ./dist -c-1",
     "serve": "npm run build && node server.js",
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "optimize": "vite optimize",
     "docker-build": "docker build -t arhuako/spt-web:latest .",
-    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.4.0-beta.4",
-    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.4.0-beta.4",
+    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.4.0-beta.5",
+    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.4.0-beta.5",
     "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
   },
   "devDependencies": {

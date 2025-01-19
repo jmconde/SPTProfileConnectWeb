@@ -1,7 +1,7 @@
 <script>
   import ClientsOnlineItem from "./ClientsOnlineItem.svelte";
   import { loadingStore, setLoading } from "../stores/loadingStore";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { ProfilesService } from "@services/ProfilesService.js";
   import { PollingService } from "@services/PollingService.js";
   
@@ -23,6 +23,10 @@
   onMount(async () => {
     setLoading(PAGE_NAME, true);
     startPolling();
+  });
+
+  onDestroy(() => {
+    polling.stop();
   });
 
   function startPolling() {

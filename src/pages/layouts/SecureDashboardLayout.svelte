@@ -18,7 +18,7 @@
   const auth = new AuthService();
 
   onMount(() => {
-    const isLoggedIn = auth.fromStorage();
+    const isLoggedIn = auth.isAuthenticated();
     if (!isLoggedIn) {
       navigate(NavigationRoutes.LANDING, { replace: true });
     }

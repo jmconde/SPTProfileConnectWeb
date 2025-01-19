@@ -1,18 +1,14 @@
 <script>
   import { onMount } from "svelte";
-  import { Router, Route } from "svelte-routing";
+  import { Router, Route, navigate } from "svelte-routing";
 
   import ConfirmationModal from "@lib/modals/ConfirmationModal.svelte";
-  import Header from "@lib/Header.svelte";
   import ToastManager from "@lib/ToastManager.svelte";
 
-  import Changelog from "@pages/public/Changelog.svelte";
   import LandingPage from "@pages/public/LandingPage.svelte";
-  import ForgottenPassword from "@pages/public/ForgottenPassword.svelte";
   import NotFound from "@pages/public/NotFound.svelte";
   
   import { AuthService } from "@services/AuthService";
-  import { LoggingService } from "@services/LoggingService";  
   import { setupI18n } from '@services/i18n.js';
   import { WebSocketService } from "@services/WebSocketService.js";
   import SnowFlake from "@lib/SnowFlake.svelte";
@@ -20,6 +16,7 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import SecureDashboardLayout from "@pages/layouts/SecureDashboardLayout.svelte";
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
+  import { NavigationRoutes } from "@utils/constants.js";
     
   setupI18n({ withLocale: 'en' });
 
@@ -28,11 +25,15 @@
 
   export let url = "";
 
-  const logger = new LoggingService().logger;
-
   onMount(() => {
     const auth = new AuthService();
-    auth.fromStorage();
+    const isLoggedIn = auth.fromStorage();
+
+    if (isLoggedIn) {
+      navigate(NavigationRoutes.SECURE_DASHBOARD_HOME, { replace: true });
+    } else {
+      navigate(NavigationRoutes.LANDING, { replace: true });
+    }
   });
 </script>
 
