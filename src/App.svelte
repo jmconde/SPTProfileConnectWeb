@@ -17,7 +17,7 @@
   import SecureDashboardLayout from "@pages/layouts/SecureDashboardLayout.svelte";
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
   import { NavigationRoutes } from "@utils/constants.js";
-  import { isInRoutes } from "@utils/helper.js";
+  import { isInRoutes, isSecurePath } from "@utils/helper.js";
     
   setupI18n({ withLocale: 'en' });
 
@@ -29,9 +29,8 @@
   onMount(() => {
     const auth = new AuthService();
     const isLoggedIn = auth.fromStorage();
-
     if (isLoggedIn) {
-      if (isInRoutes(location.pathname)) {
+      if (isInRoutes(location.pathname) && isSecurePath(location.pathname)) {
         navigate(location.pathname, { replace: true });
       } else {
         navigate(NavigationRoutes.SECURE_DASHBOARD_HOME, { replace: true });

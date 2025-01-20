@@ -1,4 +1,4 @@
-import { NavigationRoutes } from "./constants.js";
+import { NavigationRoutes, securePathPrefix } from "./constants.js";
 
 export function debounce(func, wait) {
   let timeout;
@@ -67,4 +67,8 @@ export async function wait(ms) {
 
 export function isInRoutes(path) {
   return Object.values(NavigationRoutes).includes(path);
+}
+
+export function isSecurePath(path) {
+  return path.startsWith(securePathPrefix);
 }
