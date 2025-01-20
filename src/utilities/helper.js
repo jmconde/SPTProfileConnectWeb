@@ -1,3 +1,5 @@
+import { NavigationRoutes } from "./constants.js";
+
 export function debounce(func, wait) {
   let timeout;
   return (...args) => {
@@ -61,4 +63,8 @@ export function stopPolling(pollInterval) {
 
 export async function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function isInRoutes(path) {
+  return Object.values(NavigationRoutes).includes(path);
 }

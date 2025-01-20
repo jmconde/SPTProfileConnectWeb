@@ -17,6 +17,7 @@
   import SecureDashboardLayout from "@pages/layouts/SecureDashboardLayout.svelte";
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
   import { NavigationRoutes } from "@utils/constants.js";
+  import { isInRoutes } from "@utils/helper.js";
     
   setupI18n({ withLocale: 'en' });
 
@@ -30,7 +31,11 @@
     const isLoggedIn = auth.fromStorage();
 
     if (isLoggedIn) {
-      navigate(NavigationRoutes.SECURE_DASHBOARD_HOME, { replace: true });
+      if (isInRoutes(location.pathname)) {
+        navigate(location.pathname, { replace: true });
+      } else {
+        navigate(NavigationRoutes.SECURE_DASHBOARD_HOME, { replace: true });
+      }
     } else {
       navigate(NavigationRoutes.LANDING, { replace: true });
     }

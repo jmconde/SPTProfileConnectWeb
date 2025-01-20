@@ -7,11 +7,23 @@
   let data = [];
   let labels = [];
   let mode = 'roubles';
+  let lastValues = {};
   
   async function getData() {
     const to = new Date();
     const from = new Date(to.getTime() - 1000 * 60 * 60 * 24 * 3); // last 3 days
     const moneyResponse = await profilesService.fetchMoneyData(from, to);
+
+    const allUsers = (moneyResponse[moneyResponse.length - 1]?.values || []).map((item) => item.nickname).sort((a, b) => a.localeCompare(b));
+    
+    lastValues = allUsers.reduce((acc, val) => {
+      acc[val] = {
+        roubles: 0,
+        dollars: 0,
+        euros: 0,
+      };
+      return acc;
+    }, {})
 
     labels = moneyResponse.map((item) => {
       const date = item._id;
@@ -19,23 +31,30 @@
     });
 
     data = moneyResponse.reduce((users, item) => {
-      const valuesArray = item.values.sort((a, b) => {
-        return a.nickname.localeCompare(b.nickname);
-      });
-      valuesArray.forEach((value) => {
-        let  user = users.find(r => r.label === value.nickname);
+      allUsers.forEach((nickname) => {
+        let  user = users.find(r => r.label === nickname);
+        const userValues = item.values.find(r => r.nickname === nickname);
         if (!user) {
           user = {
-            label: value.nickname,
-            roubles: [],
-            dollars: [],
-            euros: [],
+            label: nickname,
+            roubles: [ !userValues ? lastValues[nickname].roubles : userValues.roubles ],
+            dollars: [ !userValues ? lastValues[nickname].dollars : userValues.dollars ],
+            euros: [ !userValues ? lastValues[nickname].euros : userValues.euros ],
           };
           users.push(user);
+        } else if (!userValues) {
+          user.roubles.push(lastValues[nickname].roubles);
+          user.dollars.push(lastValues[nickname].dollars);
+          user.euros.push(lastValues[nickname].euros);
+        } else {
+          user.roubles.push(userValues.roubles);
+          user.dollars.push(userValues.dollars);
+          user.euros.push(userValues.euros);
+          lastValues[nickname].roubles = userValues.roubles;
+          lastValues[nickname].dollars = userValues.dollars;
+          lastValues[nickname].euros = userValues.euros;
         }
-        user.roubles.push(value.roubles);
-        user.dollars.push(value.dollars);
-        user.euros.push(value.euros);
+       
       });
       return users;
     }, []);
