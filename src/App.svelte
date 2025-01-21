@@ -18,6 +18,8 @@
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
   import { NavigationRoutes } from "@utils/constants.js";
   import { isInRoutes, isSecurePath } from "@utils/helper.js";
+  import CustomPopover from "@lib/CustomPopover.svelte";
+  import TodoListViewer from "@lib/TodoListViewer.svelte";
     
   setupI18n({ withLocale: 'en' });
 
@@ -41,15 +43,14 @@
   });
 </script>
 
-
 <Router {url}>
-  
   <Route path="/secure/*" component={SecureDashboardLayout}></Route>
   <Route path="/*" component={UnsecureDashboardLayout}></Route>
   <Route path="/" component={LandingPage}></Route>
   <Route><NotFound /></Route>
 </Router>
 
+<TodoListViewer />
 <ConfirmationModal />
 <ToastManager />
 <SnowFlake active={hasSnowEffect} />
