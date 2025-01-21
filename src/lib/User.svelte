@@ -1,7 +1,7 @@
 <script>
   
   import { highlightMatch } from "./helpers";
-  import CustomPopover from "./CustomPopover.svelte";
+  import UserTasksPopover from "./UserTasksPopover.svelte";
 
   export let user;
   export let query;
@@ -33,5 +33,5 @@
   <span class="badge rounded-pill { !readyToComplete ? 'text-bg-secondary' :'text-bg-success'}">{@html highlightMatch(user.user, query)}</span>
 </button>
 {#if popoverEl}
-  <CustomPopover on:tasksChange={onTasksChange} trigger={popoverEl} visible={tasksPopoverVisible} {user} ></CustomPopover>
+  <UserTasksPopover on:tasksChange={onTasksChange} trigger={popoverEl} visible={tasksPopoverVisible} {user} ></UserTasksPopover>
 {/if}

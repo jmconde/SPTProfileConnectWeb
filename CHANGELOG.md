@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.5.0] - 2025-01-21
+### Added
+- Ability to add quest items in pin board
+
+### Changed
+- Layout scrolling
+- Quest item design
+- Client online section now is sticky
+
 ## [2.4.0] - 2025-01-21
 ### Added
 - Pinned Tasks
@@ -35,7 +44,8 @@ All notable changes to this project will be documented in this file.
 ## [2.0.2] - 2024-06-15
 Initial commit
 
-[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.4.0...HEAD
+[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.0...HEAD
+[2.5.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.2.0...2.4.0
 [2.2.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.1.2...2.2.0
 [2.1.2]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.1.1...2.1.2

@@ -19,7 +19,6 @@
   let parent;
   let arrowElement;
   let tasks = [];
-  let dim;
   let loading = true;
   let canAddTasks = false;
 
@@ -34,17 +33,17 @@
   }
 
   function showPopover() {
-    const dim = trigger.getBoundingClientRect();
-
-    trigger.getBoundingClientRect();
     visible = true;
     document.addEventListener("click", handleClickOutside);
+    window.addEventListener("resize", positionPopover);
   }
 
   function hidePopover() {
     visible = false;
     document.removeEventListener("click", handleClickOutside);
+    window.removeEventListener("resize", positionPopover);
   }
+
   $: canAddTasks = $userStore.profileId === user.user;
   $: if (visible && trigger && element) {
     if (loading) {
@@ -124,6 +123,7 @@
     return () => {
       document.removeEventListener("click", handleClickOutside);
       trigger.removeEventListener("click", showPopover);
+      window.removeEventListener("resize", positionPopover);
     };
   });
 
@@ -146,19 +146,19 @@
 
 {#if visible}
   <div
-    class="custom-popover"
+    class="usert-tasks-popover"
     transition:fade={{ duration: 200 }}
     bind:this={element}
   >
     <div class="arrow" bind:this={arrowElement}></div>
-    <h3 class="custom-popover-header">
+    <h3 class="usert-tasks-popover-header">
       <span>{user.user}'s Tasks</span>
       
       {#if canAddTasks}
         <span><button class="btn btn-link pin-button" on:click={pinAllTasks}><PinAngleIcon /></button></span>
         {/if}
     </h3>
-    <div class="custom-popover-body">
+    <div class="usert-tasks-popover-body">
       <UserTasks {tasks} on:change={onChangeUserTasks} on:pin={onPinTask} {canAddTasks}/>      
     </div>
   </div>
@@ -177,7 +177,7 @@
     transform: rotate(-30deg);
   }
 
-  .custom-popover {
+  .usert-tasks-popover {
     position: absolute;
     border: 1px solid #666;
     z-index: 10;
@@ -186,11 +186,11 @@
     border-radius: 3px;
   }
 
-  .custom-popover-body {
+  .usert-tasks-popover-body {
     padding: 16px 16px;
   }
 
-  .custom-popover-header {
+  .usert-tasks-popover-header {
     display: flex;
     justify-content: space-between;
     align-items: center;

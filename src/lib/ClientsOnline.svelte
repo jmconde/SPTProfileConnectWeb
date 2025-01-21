@@ -214,7 +214,7 @@
 
 <div>
   {#if $loadingStore[PAGE_NAME]}
-    <div class="card mb-2">
+    <div class="card mb-2 sticky-top">
       <div class="card-body">
         <h5 class="card-title placeholder-glow">
           <span class="placeholder col-4"></span>

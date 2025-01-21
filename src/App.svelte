@@ -18,7 +18,7 @@
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
   import { NavigationRoutes } from "@utils/constants.js";
   import { isInRoutes, isSecurePath } from "@utils/helper.js";
-  import CustomPopover from "@lib/CustomPopover.svelte";
+  import CustomPopover from "@lib/UserTasksPopover.svelte";
   import TodoListViewer from "@lib/TodoListViewer.svelte";
     
   setupI18n({ withLocale: 'en' });

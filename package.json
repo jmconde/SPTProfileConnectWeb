@@ -1,7 +1,7 @@
 {
   "name": "spt-web",
   "private": true,
-  "version": "2.4.0",
+  "version": "2.5.0",
   "type": "module",
   "scripts": {
     "start": "http-server ./dist -c-1",
@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "optimize": "vite optimize",
     "docker-build": "docker build -t arhuako/spt-web:latest .",
-    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.4.0",
-    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.4.0",
+    "docker-tag": "docker tag arhuako/spt-web:latest arhuako/spt-web:2.5.0",
+    "docker-push": "docker push arhuako/spt-web:latest && docker push arhuako/spt-web:2.5.0",
     "publish": "npm run docker-build && npm run docker-tag && npm run docker-push"
   },
   "devDependencies": {
@@ -45,6 +45,7 @@
     "svelte-chartjs": "^3.1.5",
     "svelte-copy": "^1.4.2",
     "svelte-i18n": "^4.0.0",
+    "svelte-local-storage-store": "^0.6.4",
     "svelte-multiselect": "^10.3.0"
   },
   "author": "arhuako",

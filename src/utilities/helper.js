@@ -72,3 +72,21 @@ export function isInRoutes(path) {
 export function isSecurePath(path) {
   return path.startsWith(securePathPrefix);
 }
+
+export function getHeaderHeight() {
+  return document.querySelector('#app > nav.navbar').offsetHeight;
+}
+
+export function getItemIconUrls() {
+  const urlsMap = {};
+  const original = import.meta.glob(
+    ["../lib/assets/images/items/*.jpg", "../lib/assets/images/items/*.png", "../lib/assets/images/items/*.gif"],
+    { eager: true, query: "?url", import: "default" }
+  )
+  for (const key in original) {
+    const newKey = original[key].split('/').pop();
+    urlsMap[newKey] = original[key];
+  }
+  return urlsMap;
+
+}

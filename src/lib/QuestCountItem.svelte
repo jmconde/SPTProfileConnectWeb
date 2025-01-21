@@ -4,11 +4,12 @@
   import User from "./User.svelte";
   import { highlightMatch } from "./helpers";
   import ItemsNeededIcon from 'svelte-bootstrap-icons/lib/QuestionCircleFill.svelte';
+  import InfoIcon from 'svelte-bootstrap-icons/lib/InfoCircleFill.svelte';
   import "bootstrap/js/dist/popover.js";
 
   import * as bootstrap from "bootstrap";
   import { ProfilesService } from "@services/ProfilesService.js";
-  import ItemsNeeded from "./ItemsNeeded.svelte";
+  import QuestItemsNeededPopover from "./QuestItemsNeededPopover.svelte";
 
   export let quest;
   export let query;
@@ -20,6 +21,8 @@
   myDefaultAllowList.tr = [];
   myDefaultAllowList.td = [];
   myDefaultAllowList.th = [];
+  myDefaultAllowList.button = [];
+  myDefaultAllowList.svg = [];
 
   const profileService = new ProfilesService();
 
@@ -33,18 +36,19 @@
   let sortedUSers = [];
   let itemsNeeded = {};
   let itemsNeededTpl;
+  let popoverItemsNeededVisible = false;
 
   onMount(async () => {
     popoverDescriptionInstance =  new bootstrap.Popover(popoverDescriptionTrigger,  { html: true });
     itemsNeeded = await profileService.getQuestItemsNeeded(quest.id);
     
-    if (itemsNeeded.valid) {
-      popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { 
-        allowList: myDefaultAllowList, 
-        html: true, 
-        content: itemsNeededTpl.innerHTML 
-      });
-    }
+    // if (itemsNeeded.valid) {
+    //   popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { 
+    //     allowList: myDefaultAllowList, 
+    //     html: true, 
+    //     content: itemsNeededTpl.innerHTML 
+    //   });
+    // }
   });
 
   
@@ -62,58 +66,89 @@
 <div class="col-xxxl-2 col-xxl-3 col-xl-4 col-lg-4 col-md-6 mb-4">
   <div class="card card-quest h-100">
     <div style="position: relative;">
-      <img src={getImageUrl(quest) + ""} class="card-img-top" alt={quest.name} />
+      <div class="card-img-top-container" style="background-image: url({getImageUrl(quest)});">
+        <div class="floating-text count-container">{quest.count}</div>
+        <!-- <div class="floating-text count-location">
+          {@html highlightMatch(quest.location, query)}
+        </div>
+        <div class="floating-text count-trader">
+          {@html highlightMatch(quest.trader, query)}
+        </div> -->
+
+      </div>
+      <!-- <img src={getImageUrl(quest) + ""} class="card-img-top" alt={quest.name} /> -->
       <div class="floating-text count-container">{quest.count}</div>
-      <div class="floating-text count-location">
+      <!-- <div class="floating-text count-location">
         {@html highlightMatch(quest.location, query)}
       </div>
       <div class="floating-text count-trader">
         {@html highlightMatch(quest.trader, query)}
-      </div>
+      </div> -->
     </div>
     <div class="card-body">
-      <h5 class="card-title"><QuestLink quest={quest} {query} /></h5>
-      <p class="card-text multi-line-truncate text-secondary">
+      <h5 class="quest-name card-title mb-1"><QuestLink quest={quest} {query} /></h5>
+      <!-- <p class="card-text multi-line-truncate text-secondary">
         {quest.description}
-      </p>
+      </p> -->
+      <div class="mb-2 d-flex justify-content-between align-items-center">
+        <div>
+          <span class="count-location">{@html highlightMatch(quest.trader, query)}</span> - <span class="count-trader">{@html highlightMatch(quest.location, query)}</span>
+        </div>
+        <div>
+          <button bind:this={popoverDescriptionTrigger}
+            type="button"
+            class="btn btn-link btn-sm"
+            data-bs-toggle="popover"
+            data-bs-trigger="focus"
+            data-bs-placement="top"
+            data-bs-content={quest.description}
+          >
+            <InfoIcon class="item-icon" />
+          </button>
+          <button bind:this={popoverItemsNeededTrigger}
+          type="button"
+          style={itemsNeeded.valid ? '' : 'display: none;'}
+          class="btn btn-sm btn-link"
+        ><ItemsNeededIcon class="item-icon" /></button>
+        </div>
+      </div>
       
-      <button bind:this={popoverDescriptionTrigger}
-        type="button"
-        class="btn btn-secondary btn-sm"
-        data-bs-toggle="popover"
-        data-bs-trigger="focus"
-        data-bs-placement="top"
-        data-bs-content={quest.description}
-      >
-        Read description
-      </button>
-      <button bind:this={popoverItemsNeededTrigger}
-      type="button"
-      style={itemsNeeded.valid ? '' : 'display: none;'}
-      class="btn btn-secondary btn-sm"
-      data-bs-toggle="popover"
-      data-bs-trigger="focus"
-      data-bs-placement="bottom"
-      on:click={() => { popoverItemsNeededInstance.setContent({ '.popover-body': itemsNeededTpl.innerHTML});  }}
-    ><ItemsNeededIcon class="item-icon" /></button>
+      
     </div>
-    <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-body-secondary">Who has it?</h6>
+    <div class="card-footer">
+      <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Who has it?</h6> -->
       {#each sortedUSers as user (user.user)}
         <User {user} {query} />
       {/each}
     </div>
   </div>
-  <div class="needed-items card" bind:this={itemsNeededTpl}>
-    <ItemsNeeded items={itemsNeeded.items || []} />
-  </div>
+  {#if popoverItemsNeededTrigger}
+    <QuestItemsNeededPopover items={itemsNeeded.items || []} trigger={popoverItemsNeededTrigger} visible={popoverItemsNeededVisible}/>
+  {/if}
 
 </div>
 
 <style>
-  .item-icon {
-    pointer-events: none;
+  .quest-name {
+    font-size: 1.1rem;
   }
+  .btn-link{
+    opacity: 0.8;
+    color: inherit;
+  }
+  .btn-link:hover{
+    opacity: 1;
+  }
+  .card-img-top-container {
+    height: 80px; 
+    width: 100%; 
+    background-size: cover; 
+    background-position: top;
+  }
+  /* .card-img-top {
+    height: 100px;
+    width: 100%;
+  } */
   .needed-items{
     display: none;
   }
@@ -139,13 +174,7 @@
     border-top-left-radius: 6px;
   }
 
-  .count-location {
-    bottom: 0;
-    left: 0;
-  }
-
-  .count-trader {
-    bottom: 0;
-    right: 0;
+  .count-location, .count-trader {
+    font-size: 70%;
   }
 </style>

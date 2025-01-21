@@ -7,10 +7,12 @@
 </script>
 
 <main>
-  <div class="container-fluid mt-2">
+  <div class="container-fluid mt-2 main-layout-container">
     <div class="row">
       <div class="col left-fixed-column">
-        <ClientsOnline />
+        <div class="sticky-top">
+          <ClientsOnline />
+        </div>
       </div>
       <div class="col">
         <Router>
@@ -23,6 +25,10 @@
 </main>
 
 <style>
+  .main-layout-container {
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
   .left-fixed-column {
     max-width: 300px;
   }

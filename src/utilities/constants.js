@@ -1,3 +1,5 @@
+import { getItemIconUrls } from "./helper.js";
+
 export const securePathPrefix = '/secure';
 export const NavigationRoutes = {
   LANDING: '/',
@@ -13,3 +15,4 @@ export const NavigationRoutes = {
   SECURE_DASHBOARD_ADMIN_NAMESPACE: `${securePathPrefix}/admin/namespace`,
   SECURE_DASHBOARD_CHARTS: `${securePathPrefix}/charts`,
 };
+export const itemIconsUrls = getItemIconUrls();

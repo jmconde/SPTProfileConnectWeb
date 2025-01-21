@@ -140,7 +140,7 @@
   }
 </style>
 
-<div class="card mb-2">
+<div id="quest-count-card" class="card mb-2">
   <div class="card-body">
     <h5 class="card-title">{$t('title.gameCount')}</h5>
     <QueryFilter {users} {locations} {traders} on:search={handleSearch} />

@@ -1,14 +1,17 @@
 <script>
+  import { addItemNeeded } from '@stores/todoListStore.js';
+  import { itemIconsUrls } from '@utils/constants.js';
+  import PinAngleIcon from 'svelte-bootstrap-icons/lib/PinAngleFill.svelte';
+
   export let items = [];
 
-  const questImages = import.meta.glob(
-    ["./assets/images/items/*.jpg", "./assets/images/items/*.png", "./assets/images/items/*.gif"],
-    { eager: true, query: "?url", import: "default" }
-  );
   
-
   function getItemImage(item) {
-    return questImages[`./assets/images/items/${item.icon}`] || '';
+    return itemIconsUrls[item.icon] || '';
+  }
+
+  function pinItem(item) {
+    addItemNeeded(item);
   }
 </script>
 
@@ -20,6 +23,7 @@
           <td>{item.name}</td>
           <td>{item.amount || ''}</td>
           <td><img class="item-image" src={getItemImage(item) + ""} alt="{item.name}" /></td>
+          <td><button class="btn btn-link pin-button" on:click|stopPropagation|preventDefault={() => pinItem(item)}><PinAngleIcon /></button></td>
         </tr>
       {/each}
     </tbody>
@@ -28,7 +32,18 @@
 
 <style>
   .item-image {
-    width: 42px;
-    
+    width: 42px;    
+  }
+
+  .pin-button {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    opacity: 0.8;
+  }
+
+  .pin-button:hover {
+    opacity: 1;
+    transform: rotate(-30deg);
   }
 </style>
