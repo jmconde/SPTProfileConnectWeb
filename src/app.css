@@ -397,15 +397,15 @@ mark.highlighted {
 }
 
 
-[data-bs-theme="light"] .usert-tasks-popover, .items-needed-popover, .custom-popover {
+[data-bs-theme="light"] .custom-popover {
   border: 1px solid #d2d2d2 !important;
 }
 
-[data-bs-theme="light"] .usert-tasks-popover-body, .items-needed-popover-body, .custom-popover-body {
+[data-bs-theme="light"] .custom-popover-body {
   background-color: #FFF !important;
 }
 
-[data-bs-theme="light"] .usert-tasks-popover-header, .items-needed-popover-header, .custom-popover-header {
+[data-bs-theme="light"] .custom-popover-header {
   background-color: #F8F8F8 !important;
   border-bottom: 1px solid #d2d2d2 !important;
 }
