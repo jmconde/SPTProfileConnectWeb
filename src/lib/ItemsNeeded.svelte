@@ -1,13 +1,14 @@
 <script>
   import { addItemNeeded } from '@stores/todoListStore.js';
   import { itemIconsUrls } from '@utils/constants.js';
+  import { getItemIconUrl } from '@utils/helper.js';
   import PinAngleIcon from 'svelte-bootstrap-icons/lib/PinAngleFill.svelte';
 
   export let items = [];
 
   
   function getItemImage(item) {
-    return itemIconsUrls[item.icon] || '';
+    return getItemIconUrl(item.icon);
   }
 
   function pinItem(item) {

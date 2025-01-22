@@ -1,4 +1,4 @@
-import { NavigationRoutes, securePathPrefix } from "./constants.js";
+import { itemIconsUrls, NavigationRoutes, securePathPrefix } from "./constants.js";
 
 export function debounce(func, wait) {
   let timeout;
@@ -83,10 +83,9 @@ export function getItemIconUrls() {
     ["../lib/assets/images/items/*.jpg", "../lib/assets/images/items/*.png", "../lib/assets/images/items/*.gif"],
     { eager: true, query: "?url", import: "default" }
   )
-  for (const key in original) {
-    const newKey = original[key].split('/').pop();
-    urlsMap[newKey] = original[key];
-  }
-  return urlsMap;
+  return original;
+}
 
+export function getItemIconUrl(itemImageName) {
+  return itemIconsUrls[`../lib/assets/images/items/${itemImageName}`]  || '';
 }

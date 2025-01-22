@@ -5,6 +5,7 @@
   import CollapseIcon from 'svelte-bootstrap-icons/lib/ArrowBarUp.svelte';
   import RemoveIcon from 'svelte-bootstrap-icons/lib/Trash3Fill.svelte';
   import { itemIconsUrls } from "@utils/constants.js";
+  import { getItemIconUrl } from "@utils/helper.js";
   
   let show = $todoList.tasks.length > 0 || $todoList.itemsNeeded.length > 0;
   let collapsed = false;
@@ -21,8 +22,8 @@
     removeItemNeeded(id);
   }
   
-  function getItemImage(item) {
-    return itemIconsUrls[item.icon] || '';
+  function getItemImage(item) {    
+    return getItemIconUrl(item.icon);
   }
 </script>
 
