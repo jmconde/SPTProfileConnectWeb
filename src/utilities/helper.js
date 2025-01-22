@@ -89,3 +89,43 @@ export function getItemIconUrls() {
 export function getItemIconUrl(itemImageName) {
   return itemIconsUrls[`../lib/assets/images/items/${itemImageName}`]  || '';
 }
+
+export function isDarkColor(hexColor) {
+  if (hexColor.startsWith('#')) {
+    hexColor = hexColor.substring(1);
+  }
+  // Convert hex to RGB first
+  let r = 0, g = 0, b = 0;
+  
+  // 3 digits
+  if (hexColor.length === 4) {
+      r = parseInt(hexColor[1] + hexColor[1], 16);
+      g = parseInt(hexColor[2] + hexColor[2], 16);
+      b = parseInt(hexColor[3] + hexColor[3], 16);
+  }
+  // 6 digits
+  else if (hexColor.length === 7) {
+      r = parseInt(hexColor[1] + hexColor[2], 16);
+      g = parseInt(hexColor[3] + hexColor[4], 16);
+      b = parseInt(hexColor[5] + hexColor[6], 16);
+  }
+
+  // Normalize RGB values
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Calculate luminance
+  let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  // Determine if color is dark
+  return luminance < 0.5;
+}
+
+export function getColorForText(text, colorsArray) {
+  let sum = 0;
+  for (let i = 0; i < text.length; i++) {
+    sum += text.charCodeAt(i);
+  }
+  return colorsArray[sum % colorsArray.length];
+}

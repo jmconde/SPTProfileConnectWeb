@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.6.0] - 2025-01-22
+### Changed
+- Header refactor
+- Quest image repositioned
+- New brand image
+
 ## [2.5.1] - 2025-01-22
 ### Fixed
 - Cannot logout properly
@@ -48,7 +54,8 @@ All notable changes to this project will be documented in this file.
 ## [2.0.2] - 2024-06-15
 Initial commit
 
-[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.1...HEAD
+[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.6.0...HEAD
+[2.6.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.1...2.6.0
 [2.5.1]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.2.0...2.4.0

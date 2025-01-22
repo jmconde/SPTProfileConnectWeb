@@ -3,7 +3,7 @@
   import ThemeSwitcher from './ThemeSwitcher.svelte';
   import { _ } from '@services/i18n';
     import { NavigationRoutes } from '@utils/constants.js';
-  import brandDarkMode from './assets/images/brand/quests_brand_icon_light.png';
+  import brandDarkMode from './assets/images/brand/quests_brand_light.png';
   
   // @ts-ignore
   const version = APP_VERSION;
@@ -21,7 +21,6 @@
   }
   
   .brand-icon {
-    width: 30px;
     height: 30px;
     caret-color: transparent;
   }

@@ -143,22 +143,18 @@
     height: 80px; 
     width: 100%; 
     background-size: cover; 
-    background-position: top;
+    background-position: 50% 20%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
   }
-  /* .card-img-top {
-    height: 100px;
-    width: 100%;
-  } */
-  .needed-items{
-    display: none;
-  }
+ 
   .floating-text {
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.5);;
+    background-color: rgba(255,255,255, 0.5);
     font-size: 0.8rem;
     padding: 5px;
   }
@@ -167,8 +163,8 @@
     cursor: pointer;
     top: 0;
     left: 0;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-size: 1.3rem;
     font-weight: bold;
     border-top-left-radius: 6px;

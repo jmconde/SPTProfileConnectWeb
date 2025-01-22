@@ -6,7 +6,7 @@ export default {
   header: {
     brand: 'SPT Quests',
     adminPanel: 'Administration Panel',
-    profile: 'Profile ({username})',
+    profile: '{username}',
     logout: 'Logout',
     login: 'Login',    
     wiki: 'Wiki',

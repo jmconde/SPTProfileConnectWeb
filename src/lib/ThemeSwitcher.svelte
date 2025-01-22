@@ -10,7 +10,7 @@
   });  
 </script>
 
-<button class="btn button-link" on:click={toggleTheme} >
+<button class="button-link" on:click={toggleTheme} >
   {#if $theme === 'dark'}
     <SunFill height={size} />
   {:else}

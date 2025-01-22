@@ -25,6 +25,9 @@
 </main>
 
 <style>
+  .main-layout-container .sticky-top {
+    z-index: 10;
+  }
   .main-layout-container {
     height: calc(100vh - 80px);
     overflow-y: auto;
