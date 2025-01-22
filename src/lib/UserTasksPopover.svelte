@@ -44,7 +44,7 @@
     window.removeEventListener("resize", positionPopover);
   }
 
-  $: canAddTasks = $userStore.profileId === user.user;
+  $: canAddTasks = $userStore?.profileId === user.user;
   $: if (visible && trigger && element) {
     if (loading) {
       fetchContent();

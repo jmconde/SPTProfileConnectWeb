@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.5.1] - 2025-01-22
+### Fixed
+- Cannot logout properly
+
 ## [2.5.0] - 2025-01-21
 ### Added
 - Ability to add quest items in pin board
@@ -44,7 +48,8 @@ All notable changes to this project will be documented in this file.
 ## [2.0.2] - 2024-06-15
 Initial commit
 
-[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.0...HEAD
+[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.1...HEAD
+[2.5.1]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.2.0...2.4.0
 [2.2.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.1.2...2.2.0
