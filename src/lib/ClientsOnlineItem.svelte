@@ -26,7 +26,7 @@
   }
 </script>
 
-<!-- svelte-ignore css-unused-selector -->
+
 <div class="client-status-container">
   <div class="conn-status {item.classes}"></div>
   <div class="image-container">

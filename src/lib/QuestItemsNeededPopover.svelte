@@ -103,40 +103,13 @@
 
 {#if visible}
   <div
-    class="items-needed-popover"
+    class="custom-popover"
     transition:fade={{ duration: 200 }}
     bind:this={element}
   >
-    <div class="arrow" bind:this={arrowElement}></div>
-    <div class="items-needed-popover-body">
+    <div class="custom-popover-arrow" bind:this={arrowElement}></div>
+    <div class="custom-popover-body">
       <ItemsNeeded {items} />
     </div>
   </div>
 {/if}
-
-<style>
-  .items-needed-popover {
-    position: absolute;
-    border: 1px solid #666;
-    z-index: 10;
-    width: 300px;
-    background-color: #212529;
-    border-radius: 3px;
-  }
-
-  .items-needed-popover-body {
-    padding: 16px 16px;
-  }
-
-  .arrow {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #343a40;
-    top: -10px;
-    left: 10px;
-    opacity: 0.7;
-  }
-</style>

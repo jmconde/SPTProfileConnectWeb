@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.6.1] - 2025-01-22
+### Changed
+- Added light mode for new popovers
+
 ## [2.6.0] - 2025-01-22
 ### Changed
 - Header refactor
@@ -54,7 +58,8 @@ All notable changes to this project will be documented in this file.
 ## [2.0.2] - 2024-06-15
 Initial commit
 
-[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.6.0...HEAD
+[Unreleased]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.6.1...HEAD
+[2.6.1]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.6.0...2.6.1
 [2.6.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.1...2.6.0
 [2.5.1]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/jmconde/SPTProfileConnectWeb/compare/2.4.0...2.5.0

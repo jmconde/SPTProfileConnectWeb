@@ -4,8 +4,7 @@
   import ExpandIcon from 'svelte-bootstrap-icons/lib/ArrowBarDown.svelte';
   import CollapseIcon from 'svelte-bootstrap-icons/lib/ArrowBarUp.svelte';
   import RemoveIcon from 'svelte-bootstrap-icons/lib/Trash3Fill.svelte';
-  import { itemIconsUrls } from "@utils/constants.js";
-  import { getItemIconUrl } from "@utils/helper.js";
+    import { getItemIconUrl } from "@utils/helper.js";
   
   let show = $todoList.tasks.length > 0 || $todoList.itemsNeeded.length > 0;
   let collapsed = false;
@@ -72,7 +71,7 @@
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" bind:checked={item.checked}>
               </div>
-              <span>{item.name}</span>
+              <span>{item.name} {#if item.amount !== null && item.amount !== undefined} ({item.amount}){/if}</span>
               <button class="btn btn-link btn-toggle-collapse" on:click={() => onClickRemoveItem(item.id)}><RemoveIcon /></button>
             </li>
           {/each}
@@ -83,7 +82,7 @@
   </div>
 {/if}
 
-<style>
+<style lang="scss">
 
   .todo-title {
     font-size: 90%;
@@ -93,6 +92,10 @@
     border-color: #666;
     outline: none;
     box-shadow: none;
+}
+
+.form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e);
 }
 
   .form-check-input:checked {

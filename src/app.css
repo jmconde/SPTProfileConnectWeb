@@ -357,3 +357,71 @@ mark.highlighted {
     transform: translate(10vw, 100vh);
   }
 }
+
+.custom-popover {
+  position: absolute;
+  border: 1px solid #666;
+  z-index: 10;
+  width: 300px;
+  background-color: #212529;
+  border-radius: 3px; 
+}
+
+.custom-popover-body {
+  padding: 16px 16px;    
+}
+
+.custom-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--bs-popover-header-font-size);
+  padding: 8px 8px;
+  margin-bottom: 0;
+  background-color: #343a40;
+  border-bottom: 1px solid #666;
+  border-top-left-radius: var(--bs-popover-inner-border-radius);
+  border-top-right-radius: var(--bs-popover-inner-border-radius);
+}
+
+.custom-popover-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #343a40;
+  top: -10px;
+  left: 10px;
+  opacity: 0.7;
+}
+
+
+[data-bs-theme="light"] .usert-tasks-popover, .items-needed-popover, .custom-popover {
+  border: 1px solid #d2d2d2 !important;
+}
+
+[data-bs-theme="light"] .usert-tasks-popover-body, .items-needed-popover-body, .custom-popover-body {
+  background-color: #FFF !important;
+}
+
+[data-bs-theme="light"] .usert-tasks-popover-header, .items-needed-popover-header, .custom-popover-header {
+  background-color: #F8F8F8 !important;
+  border-bottom: 1px solid #d2d2d2 !important;
+}
+
+.pin-button {
+  margin: 0;
+  padding: 0;
+  color: inherit !important;
+  opacity: 0.8;
+}
+
+.pin-button:hover {
+  opacity: 1;
+  transform: rotate(-30deg);
+}
+
+[data-bs-theme="light"] .todo-viewer {
+  background-color: #fff !important;
+}
