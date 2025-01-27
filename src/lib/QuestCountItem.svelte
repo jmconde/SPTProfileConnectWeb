@@ -11,6 +11,8 @@
   import { ProfilesService } from "@services/ProfilesService.js";
   import QuestItemsNeededPopover from "./QuestItemsNeededPopover.svelte";
 
+  import { userStore } from "@stores/userStore.js";
+
   export let quest;
   export let query;
 
@@ -30,18 +32,21 @@
     ["./assets/images/quests/*.jpg", "./assets/images/quests/*.png"],
     { eager: true, query: "?url", import: "default" }
   );
-  let popoverItemsNeededInstance, popoverItemsNeededTrigger;
+  let popoverItemsNeededTrigger;
   let popoverDescriptionInstance, popoverDescriptionTrigger;
   let defaultQuestImage = "./assets/images/quests/default.jpg";
   let sortedUSers = [];
   let itemsNeeded = {};
-  let itemsNeededTpl;
   let popoverItemsNeededVisible = false;
+  let canAddItems = false;
 
   onMount(async () => {
     popoverDescriptionInstance =  new bootstrap.Popover(popoverDescriptionTrigger,  { html: true });
     itemsNeeded = await profileService.getQuestItemsNeeded(quest.id);
-    
+    itemsNeeded.items = (itemsNeeded.items || []).map(item => {
+      item.quest = quest;
+      return item;
+    });
     // if (itemsNeeded.valid) {
     //   popoverItemsNeededInstance = new bootstrap.Popover(popoverItemsNeededTrigger, { 
     //     allowList: myDefaultAllowList, 
@@ -53,8 +58,8 @@
 
   
   $: sortedUSers = quest.userTasks.sort((a, b) => a.user.localeCompare(b.user));
+  $: canAddItems = quest.userTasks.map(u => u.user).indexOf($userStore?.profileId) > -1;
 
-  
   function getImageUrl(item) {
     const imageName = item.image.split('.')[0] ;
     const imagePng = questImages[`./assets/images/quests/${imageName}.png`];
@@ -118,12 +123,12 @@
     <div class="card-footer">
       <!-- <h6 class="card-subtitle mb-2 text-body-secondary">Who has it?</h6> -->
       {#each sortedUSers as user (user.user)}
-        <User {user} {query} />
+        <User {user} {query} {quest} />
       {/each}
     </div>
   </div>
   {#if popoverItemsNeededTrigger}
-    <QuestItemsNeededPopover items={itemsNeeded.items || []} trigger={popoverItemsNeededTrigger} visible={popoverItemsNeededVisible}/>
+    <QuestItemsNeededPopover items={itemsNeeded.items || []} trigger={popoverItemsNeededTrigger} visible={popoverItemsNeededVisible} {canAddItems}/>
   {/if}
 
 </div>

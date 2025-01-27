@@ -17,9 +17,7 @@
   import SecureDashboardLayout from "@pages/layouts/SecureDashboardLayout.svelte";
   import UnsecureDashboardLayout from "@pages/layouts/UnsecureDashboardLayout.svelte";
   import { NavigationRoutes } from "@utils/constants.js";
-  import { isInRoutes, isSecurePath } from "@utils/helper.js";
-  import CustomPopover from "@lib/UserTasksPopover.svelte";
-  import TodoListViewer from "@lib/TodoListViewer.svelte";
+  import { isInRoutes, isMobileWidth, isSecurePath } from "@utils/helper.js";
     
   setupI18n({ withLocale: 'en' });
 
@@ -31,6 +29,12 @@
   onMount(() => {
     const auth = new AuthService();
     const isLoggedIn = auth.fromStorage();
+    
+    if (isMobileWidth()) {
+      document.body.classList.add("mobile");
+    } else {
+      document.body.classList.remove("mobile");
+    }
     if (isLoggedIn) {
       if (isInRoutes(location.pathname) && isSecurePath(location.pathname)) {
         navigate(location.pathname, { replace: true });
@@ -50,7 +54,6 @@
   <Route><NotFound /></Route>
 </Router>
 
-<TodoListViewer />
 <ConfirmationModal />
 <ToastManager />
 <SnowFlake active={hasSnowEffect} />

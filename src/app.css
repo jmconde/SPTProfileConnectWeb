@@ -231,7 +231,12 @@ mark.highlighted {
 }
 
 .btn-link {
-  color: white;
+  color: inherit !important;
+  opacity: 0.8;
+}
+
+.btn-link:hover {
+  opacity: 1;
 }
 
 .conn-status {
@@ -358,6 +363,15 @@ mark.highlighted {
   }
 }
 
+.custom-popover-backdrop {
+  position: absolute;
+  z-index: 9;
+  bottom: -100px;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .custom-popover {
   position: absolute;
   border: 1px solid #666;
@@ -396,6 +410,10 @@ mark.highlighted {
   opacity: 0.7;
 }
 
+.mobile .custom-popover-arrow {
+  display: none;
+}
+
 
 [data-bs-theme="light"] .custom-popover {
   border: 1px solid #d2d2d2 !important;
@@ -420,8 +438,4 @@ mark.highlighted {
 .pin-button:hover {
   opacity: 1;
   transform: rotate(-30deg);
-}
-
-[data-bs-theme="light"] .todo-viewer {
-  background-color: #fff !important;
 }

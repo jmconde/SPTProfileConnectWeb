@@ -1,4 +1,5 @@
 <script>
+  import { addTask } from "@stores/todoListStore.js";
   import { createEventDispatcher } from "svelte";
   import PinAngleIcon from 'svelte-bootstrap-icons/lib/PinAngleFill.svelte';
 
@@ -12,7 +13,9 @@
   }
 
   function pinTask(task) {
-    dispatchEvent('pin', task);
+    if (!task.accomplished) {
+      addTask(task);
+    }
   }
 
 </script>

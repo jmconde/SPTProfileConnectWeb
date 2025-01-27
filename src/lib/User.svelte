@@ -4,6 +4,7 @@
   import UserTasksPopover from "./UserTasksPopover.svelte";
 
   export let user;
+  export let quest;
   export let query;
 
   let tasks = user?.tasks ?? [];
@@ -33,5 +34,5 @@
   <span class="badge rounded-pill { !readyToComplete ? 'text-bg-secondary' :'text-bg-success'}">{@html highlightMatch(user.user, query)}</span>
 </button>
 {#if popoverEl}
-  <UserTasksPopover on:tasksChange={onTasksChange} trigger={popoverEl} visible={tasksPopoverVisible} {user} ></UserTasksPopover>
+  <UserTasksPopover on:tasksChange={onTasksChange} trigger={popoverEl} visible={tasksPopoverVisible} {user} {quest} ></UserTasksPopover>
 {/if}

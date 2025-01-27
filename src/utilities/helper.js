@@ -129,3 +129,7 @@ export function getColorForText(text, colorsArray) {
   }
   return colorsArray[sum % colorsArray.length];
 }
+
+export function isMobileWidth() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}

@@ -5,6 +5,7 @@
   import PinAngleIcon from 'svelte-bootstrap-icons/lib/PinAngleFill.svelte';
 
   export let items = [];
+  export let canAddItems = false;
 
   
   function getItemImage(item) {
@@ -24,7 +25,10 @@
           <td>{item.name}</td>
           <td>{item.amount || ''}</td>
           <td><img class="item-image" src={getItemImage(item) + ""} alt="{item.name}" /></td>
-          <td><button class="btn btn-link pin-button" on:click|stopPropagation|preventDefault={() => pinItem(item)}><PinAngleIcon /></button></td>
+          <td>
+            {#if canAddItems}
+              <button class="btn btn-link pin-button" on:click|stopPropagation|preventDefault={() => pinItem(item)}><PinAngleIcon /></button>
+            {/if}
         </tr>
       {/each}
     </tbody>

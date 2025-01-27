@@ -2,6 +2,8 @@ import { get } from 'svelte/store';
 import { jwtStore, refreshTokenStore } from '../stores/jwtStore';
 import { HttpResponseError } from '@utils/errors/HttpResponseError';
 import { SessionExpiredError } from '@utils/errors/SessionExpiredError.js';
+import { navigate } from 'svelte-routing';
+import { NavigationRoutes } from '@utils/constants.js';
 
 export class NetworkService {
   API_URL = import.meta.env.VITE_API_URL;
@@ -56,10 +58,9 @@ export class NetworkService {
   }
 
   _handleError(error) {
-    // if (error instanceof SessionExpiredError) {
-    //   console.log('Session expired');
-    //   return;
-    // }
+    if (error instanceof SessionExpiredError) {
+      navigate(NavigationRoutes.LANDING, { replace: true });
+    }
     throw error;
   }
 

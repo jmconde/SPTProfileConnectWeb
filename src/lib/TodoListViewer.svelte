@@ -1,106 +1,81 @@
 <script>
-  import { todoList, removeTask, removeItemNeeded } from "@stores/todoListStore.js";
+  import { todoList, clearTodoList } from "@stores/todoListStore.js";
   import { fade } from "svelte/transition";
   import ExpandIcon from 'svelte-bootstrap-icons/lib/ArrowBarDown.svelte';
   import CollapseIcon from 'svelte-bootstrap-icons/lib/ArrowBarUp.svelte';
   import RemoveIcon from 'svelte-bootstrap-icons/lib/Trash3Fill.svelte';
-    import { getItemIconUrl } from "@utils/helper.js";
+  import TasksDrawerOpen from 'svelte-bootstrap-icons/lib/ChevronLeft.svelte';
+  import TasksDrawerCloseOpen from 'svelte-bootstrap-icons/lib/ChevronRight.svelte';
+  import { isMobileWidth } from "@utils/helper.js";
+  import TodoListDetails from "./TodoListDetails.svelte";
   
-  let show = $todoList.tasks.length > 0 || $todoList.itemsNeeded.length > 0;
-  let collapsed = false;
+
+  const isMobile = isMobileWidth();
+  
+  let show = $todoList.length > 0;
+  let collapsed = isMobile;
 
   todoList.subscribe(value => {
-    show = value.tasks.length > 0 || value.itemsNeeded.length > 0;
+    show = value.length > 0;
   });
 
-  function onClickRemoveTask(id) {
-    removeTask(id);
-  }
 
-  function onClickRemoveItem(id) {
-    removeItemNeeded(id);
-  }
   
-  function getItemImage(item) {    
-    return getItemIconUrl(item.icon);
-  }
 </script>
 
+
 {#if show}
-  <div class="todo-viewer" transition:fade={{ duration: 200 }}>
-    <div class="todo-header">
-      <h6 class="d-flex justify-content-between align-items-center">
-        <span>Pin Board</span>
-        <span>
-          {#if collapsed}
-            <button class="btn btn-link btn-toggle-collapse" on:click={() => collapsed = false}><ExpandIcon /></button>
-          {:else}
-            <button class="btn btn-link btn-toggle-collapse" on:click={() => collapsed = true}><CollapseIcon /></button>
-          {/if}
-          <button class="btn btn-link btn-toggle-collapse" on:click={() => todoList.set({tasks: [], itemsNeeded: []})}><RemoveIcon /></button>
-        </span>
-      </h6>
+
+  {#if isMobile && collapsed}
+    <div class="todo-toggle d-flex justify-content-between align-items-center" transition:fade={{ duration: 200 }}>
+      <button class="btn btn-link btn-drawer-open" on:click={() => collapsed = !collapsed}><TasksDrawerOpen height={10} /></button>
     </div>
-    {#if !collapsed}
-      <div>
-        {#if $todoList.tasks.length > 0}
-          <h6 class="todo-title d-flex justify-content-between align-items-center">
-            <span>Tasks</span>
-          </h6>
-        <ul class="list-group">
-          {#each $todoList.tasks as task (task.id)}
-            <li class="list-group-item d-flex justify-content-between align-items-center {task.checked ? 'list-group-item-success' : ''}">
-              
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" bind:checked={task.checked}>
-              </div>
-              <span>{task.description}</span>
-              <button class="btn btn-link btn-toggle-collapse" on:click={() => onClickRemoveTask(task.id)}><RemoveIcon /></button>
-            </li>
-          {/each}
-        </ul>
-        {/if}
-        {#if $todoList.itemsNeeded.length > 0}
-          <h6 class="todo-title d-flex justify-content-between align-items-center">
-            <span>Items Needed</span>
-          </h6>
-        <ul class="list-group">
-          {#each $todoList.itemsNeeded as item (item.id)}
-            <li class="list-group-item d-flex justify-content-between align-items-center {item.checked ? 'list-group-item-success' : ''}">
-              <img class="item-image" src={getItemImage(item) + ""} alt="{item.name}" />
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" bind:checked={item.checked}>
-              </div>
-              <span>{item.name} {#if item.amount !== null && item.amount !== undefined} ({item.amount}){/if}</span>
-              <button class="btn btn-link btn-toggle-collapse" on:click={() => onClickRemoveItem(item.id)}><RemoveIcon /></button>
-            </li>
-          {/each}
-        </ul>
-        {/if}
+  {/if} 
+
+
+  {#if !isMobile}
+    <div class="todo-viewer" transition:fade={{ duration: 200 }}>
+      <div class="todo-header">
+        <h6 class="d-flex justify-content-between align-items-center">
+          <span>Pin Board</span>
+          <span>
+            {#if collapsed}
+              <button class="btn btn-link btn-toggle-collapse" on:click={() => collapsed = false}><ExpandIcon /></button>
+            {:else}
+              <button class="btn btn-link btn-toggle-collapse" on:click={() => collapsed = true}><CollapseIcon /></button>
+            {/if}
+            <button class="btn btn-link btn-toggle-collapse" on:click={() => clearTodoList()}><RemoveIcon /></button>
+          </span>
+        </h6>
       </div>
-    {/if}
-  </div>
+      {#if !collapsed}
+        <TodoListDetails />
+      {/if}
+      
+    </div>
+  {:else}
+    <div class="todo-drawer {collapsed ? 'closed' : 'open'}">
+      <div class="todo-header">
+        <h6 class="d-flex justify-content-between align-items-center">
+          <span>Pin Board</span>
+          <span>
+            <button class="btn btn-link btn-drawer-open" on:click={() => collapsed = !collapsed}><TasksDrawerCloseOpen /></button>
+          <span>
+
+        </h6>
+      </div>
+      <TodoListDetails />
+    </div>
+  {/if}
 {/if}
 
 <style lang="scss">
 
-  .todo-title {
-    font-size: 90%;
-    margin-top: 1rem;
-  }
-  .form-check-input:focus {
-    border-color: #666;
-    outline: none;
-    box-shadow: none;
-}
-
-.form-switch .form-check-input:focus {
-  --bs-form-switch-bg: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e);
-}
-
-  .form-check-input:checked {
-    background-color: green;
-    border-color: green;  
+  :global([data-bs-theme="light"]) {
+    .todo-toggle, .todo-drawer, .todo-viewer {
+      background-color: #FFF !important;      
+      border: 1px solid #d2d2d2 !important;
+    }
   }
 
   .btn-toggle-collapse {
@@ -123,5 +98,62 @@
     background-color: #212529;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
+    z-index: 20;
+  }
+
+  .todo-toggle {
+    position:fixed;
+    top: 40px;
+    right: 0; 
+    background-color: #212529;
+    height: 60px;
+    width: 20px;
+    z-index: 20;
+    border-top: 1px solid #666;
+    border-left: 1px solid #666;
+    border-bottom: 1px solid #666;
+  }
+
+  .btn-drawer-open {
+    padding: 0;
+    color:inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    height: 100%;
+  }
+
+  .todo-drawer {
+    padding: 0.6rem;
+    position:fixed;
+    top: 50px;
+    right: 10px; 
+    background-color: #212529;
+    height: calc(100vh - 60px);
+    width: calc(100% - 20px);
+    border: 1px solid #666;
+    border-radius: 5px;
+    overflow-y: auto;
+    z-index: 20;
+    transition: right 0.3s;
+
+    &.closed {
+      right: -450px;
+      border: none;
+    }
+
+    &.open {
+      right: 10px;
+    }
+  }
+  
+  :global(.mobile) {
+    // .todo-drawer {
+    //   left: 10px;
+    //   width: calc(100% - 20px);
+    // }
+    .todo-header {
+      
+    }
   }
 </style>

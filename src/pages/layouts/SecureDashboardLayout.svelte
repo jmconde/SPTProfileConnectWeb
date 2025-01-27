@@ -14,6 +14,7 @@
   import { onMount } from "svelte";
   import { AuthService } from "@services/AuthService.js";
   import { NavigationRoutes } from "@utils/constants.js";
+  import TodoListViewer from "@lib/TodoListViewer.svelte";
   
   const auth = new AuthService();
 
@@ -46,5 +47,6 @@
     </div>
   </div>
 </main>
+<TodoListViewer />
 
 <style></style>

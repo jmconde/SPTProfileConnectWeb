@@ -1,16 +1,21 @@
 <script>
   import { fade } from "svelte/transition";
   import ItemsNeeded from "./ItemsNeeded.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
+  import { isMobileWidth } from "@utils/helper.js";
 
   export let trigger;
   export let items = [];
   export let visible = false;
+  export let canAddItems = false;
 
+  const isMobile = isMobileWidth();
+  
   let element;
   let arrowElement;
   let parent;
-
+  
+  
   onMount(() => {
     trigger.addEventListener("click", showPopover);
     parent = trigger.closest("#quest-count-card");
@@ -19,19 +24,28 @@
       document.removeEventListener("click", handleClickOutside);
       window.removeEventListener("resize", positionPopover);
       trigger.removeEventListener("click", showPopover);
+      document.querySelector(".custom-popover-backdrop")?.remove();
     };
   });
 
-  function showPopover() {
+  function showPopover(evt) {
+    evt && evt.stopPropagation();
     visible = true;
     document.addEventListener("click", handleClickOutside);
     window.addEventListener("resize", positionPopover);
+    if (isMobile) {
+      const bdrop = document.createElement("div");
+      bdrop.classList.add("custom-popover-backdrop");
+      document.body.appendChild(bdrop);
+    }
   }
 
-  function hidePopover() {
+  function hidePopover(evt) {
+    evt && evt.stopPropagation();
     visible = false;
     document.removeEventListener("click", handleClickOutside);
     window.removeEventListener("resize", positionPopover);
+    document.querySelector(".custom-popover-backdrop")?.remove();
   }
 
   function handleClickOutside(event) {
@@ -77,20 +91,26 @@
       arrowVerticalSide = "top";
     }
 
-    if (!hasRoomRight) {
+    if (!hasRoomRight && hasRoomLeft) {
       left -= popoverWidth - triggerRect.width - 20;
       arrowHorizontalSide = "left";
       arrowLeft = popoverWidth - 40;
+    } else if (!hasRoomLeft) {
+      left = 0;
+      
     }
     
     element.style.top = `${top}px`;
     element.style.left = `${left}px`;
-    arrowElement.style.left = `${arrowLeft}px`;
 
-    if (arrowVerticalSide === "top") {
-      arrowElement.style.top = "auto";
-      arrowElement.style.bottom = "-10px"; // Arrow points downwards
-      arrowElement.style.transform = "rotate(180deg)"; // Flip the arrow
+    if (!isMobile) {
+      arrowElement.style.left = `${arrowLeft}px`;
+
+      if (arrowVerticalSide === "top") {
+        arrowElement.style.top = "auto";
+        arrowElement.style.bottom = "-10px"; // Arrow points downwards
+        arrowElement.style.transform = "rotate(180deg)"; // Flip the arrow
+      }
     }
   }
 
@@ -109,7 +129,7 @@
   >
     <div class="custom-popover-arrow" bind:this={arrowElement}></div>
     <div class="custom-popover-body">
-      <ItemsNeeded {items} />
+      <ItemsNeeded {items} {canAddItems} />
     </div>
   </div>
 {/if}
